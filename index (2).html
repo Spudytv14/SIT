@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spudy Intelligence Technology — Smart Technology. Real Business Growth.</title>
+<meta name="description" content="Spudy Intelligence Technology builds websites, apps, marketing systems and print for businesses in Zimbabwe and beyond.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --navy:#060B1C;
+    --navy-2:#0A1230;
+    --panel:#0D1530;
+    --panel-2:#101C42;
+    --border:rgba(148,168,224,0.14);
+    --blue:#3B6BFF;
+    --blue-2:#5E86FF;
+    --cyan:#00D8E8;
+    --white:#F3F6FC;
+    --muted:#8C96BE;
+    --muted-2:#5E6892;
+    --danger:#FF6B6B;
+    --success:#3FD9A4;
+    --radius-s:6px;
+    --radius-m:10px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--white);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    font-weight:600;
+    line-height:1.15;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+  ::selection{background:var(--blue);color:var(--white);}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  section{position:relative;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;top:0;z-index:80;
+    background:rgba(6,11,28,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:72px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{width:34px;height:34px;flex:none;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.1;}
+  .brand-text b{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;}
+  .brand-text span{font-size:10.5px;color:var(--muted);letter-spacing:0.02em;}
+  .nav-links{display:flex;align-items:center;gap:30px;}
+  .nav-links a{
+    font-size:14.5px;color:var(--muted);font-weight:500;
+    transition:color .15s;
+  }
+  .nav-links a:hover{color:var(--white);}
+  .nav-right{display:flex;align-items:center;gap:14px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:10px 20px;border-radius:var(--radius-s);
+    font-size:14.5px;font-weight:600;border:1px solid transparent;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s, border-color .15s;
+    white-space:nowrap;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:linear-gradient(135deg,var(--blue),var(--cyan) 140%);color:#03101F;}
+  .btn-primary:hover{box-shadow:0 8px 24px rgba(59,107,255,0.35);}
+  .btn-ghost{background:transparent;color:var(--white);border-color:var(--border);}
+  .btn-ghost:hover{border-color:var(--blue-2);}
+  .btn-sm{padding:8px 14px;font-size:13.5px;}
+  .hamburger{display:none;background:none;border:none;color:var(--white);padding:6px;}
+  .user-chip{
+    display:flex;align-items:center;gap:10px;
+    background:var(--panel);border:1px solid var(--border);
+    padding:6px 8px 6px 14px;border-radius:999px;font-size:13.5px;
+  }
+  .user-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--success);}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:92px 0 76px;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
+  .eyebrow-line{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13.5px;margin-bottom:22px;}
+  .eyebrow-line .bar{width:26px;height:1px;background:var(--blue-2);}
+  .hero h1{font-size:clamp(34px,4.6vw,54px);max-width:640px;}
+  .hero h1 .hl{background:linear-gradient(100deg,var(--cyan),var(--blue-2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero p.lead{margin-top:20px;font-size:17.5px;color:var(--muted);max-width:480px;}
+  .hero-ctas{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+  .hero-trust{margin-top:40px;display:flex;align-items:center;gap:12px;color:var(--muted-2);font-size:13px;}
+  .hero-trust svg{width:16px;height:16px;flex:none;color:var(--cyan);}
+  .hero-visual{position:relative;height:420px;border-radius:var(--radius-m);border:1px solid var(--border);background:radial-gradient(circle at 30% 20%,rgba(59,107,255,0.18),transparent 60%),var(--panel);overflow:hidden;}
+  #netcanvas{width:100%;height:100%;display:block;}
+  .hero-visual .tag{position:absolute;left:18px;bottom:18px;background:rgba(6,11,28,0.7);border:1px solid var(--border);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--muted);backdrop-filter:blur(6px);}
+
+  /* highlight strip */
+  .highlights{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--navy-2);}
+  .highlights .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:0;}
+  .h-item{display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:26px 20px;border-right:1px solid var(--border);}
+  .h-item:last-child{border-right:none;}
+  .h-item svg{width:22px;height:22px;color:var(--cyan);}
+  .h-item span{font-size:13.5px;color:var(--muted);font-weight:500;}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{max-width:600px;margin-bottom:44px;}
+  .sec-kicker{color:var(--cyan);font-size:13px;font-weight:600;margin-bottom:10px;letter-spacing:0.01em;}
+  .sec-head h2{font-size:clamp(26px,3vw,36px);}
+  .sec-head p{margin-top:14px;color:var(--muted);font-size:15.5px;}
+  .section-pad{padding:88px 0;}
+  .section-pad.tight{padding:70px 0;}
+  .divider{border:none;border-top:1px solid var(--border);margin:0;}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:start;}
+  .founder-card{border:1px solid var(--border);border-radius:var(--radius-m);padding:28px;background:var(--panel);}
+  .founder-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:22px;color:#03101F;margin-bottom:18px;}
+  .founder-card h3{font-size:19px;}
+  .founder-card .role{color:var(--cyan);font-size:13px;margin-top:4px;display:block;}
+  .founder-card p.bio{margin-top:16px;color:var(--muted);font-size:14.5px;}
+  .about-copy p{color:var(--muted);font-size:15.5px;margin-bottom:18px;}
+  .mv-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px;}
+  .mv-box{border-left:2px solid var(--blue-2);padding-left:16px;}
+  .mv-box h4{font-size:13px;color:var(--muted-2);text-transform:none;margin-bottom:6px;}
+  .mv-box p{color:var(--white);font-size:14.5px;}
+  .values-list{margin-top:30px;border-top:1px solid var(--border);}
+  .value-row{display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--border);}
+  .value-row .vname{width:130px;flex:none;font-family:'Space Grotesk';font-size:15px;font-weight:600;color:var(--cyan);}
+  .value-row .vdesc{color:var(--muted);font-size:14.5px;}
+
+  /* ---------- SERVICES ACCORDION ---------- */
+  .accordion{border-top:1px solid var(--border);}
+  .acc-item{border-bottom:1px solid var(--border);}
+  .acc-head{
+    width:100%;display:flex;align-items:center;justify-content:space-between;
+    background:none;border:none;color:var(--white);padding:26px 4px;text-align:left;
+  }
+  .acc-head .left{display:flex;align-items:center;gap:18px;}
+  .acc-head .icon{width:40px;height:40px;border-radius:var(--radius-s);background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex:none;}
+  .acc-head .icon svg{width:19px;height:19px;color:var(--cyan);}
+  .acc-head h3{font-size:19px;}
+  .acc-head .letter{color:var(--muted-2);font-size:13px;font-family:'Space Grotesk';}
+  .acc-head .chev{width:18px;height:18px;color:var(--muted);transition:transform .2s;flex:none;}
+  .acc-item.open .chev{transform:rotate(180deg);}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .28s ease;}
+  .acc-item.open .acc-body{max-height:260px;}
+  .acc-body-in{padding:0 4px 28px 78px;display:grid;grid-template-columns:1fr 1fr;gap:10px 30px;}
+  .acc-body-in .off{color:var(--muted);font-size:14.5px;display:flex;gap:10px;align-items:center;}
+  .acc-body-in .off svg{width:14px;height:14px;color:var(--cyan);flex:none;}
+
+  /* ---------- PRODUCTS ---------- */
+  .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-m);overflow:hidden;}
+  .prod-col{background:var(--navy);padding:32px;}
+  .prod-col h3{font-size:18px;margin-bottom:6px;}
+  .prod-col .sub{color:var(--muted-2);font-size:13.5px;}
+  .prod-list{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
+  .prod-list .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px;color:var(--muted);}
+  .prod-list .row:last-child{border-bottom:none;}
+  .prod-cta{margin-top:80px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;padding:30px;border:1px solid var(--border);border-radius:var(--radius-m);background:linear-gradient(120deg,rgba(59,107,255,0.08),rgba(0,216,232,0.05));}
+  .prod-cta p{color:var(--muted);font-size:14.5px;max-width:420px;}
+  .prod-cta h4{font-size:18px;margin-bottom:6px;}
+
+  /* ---------- PORTFOLIO ---------- */
+  .cat-tabs{display:flex;gap:10px;margin-bottom:34px;flex-wrap:wrap;}
+  .cat-tab{padding:8px 16px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:13.5px;background:transparent;}
+  .cat-tab.active{background:var(--panel);color:var(--white);border-color:var(--blue-2);}
+  .port-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .port-card{border:1px solid var(--border);border-radius:var(--radius-m);padding:26px;background:var(--panel);}
+  .port-card .kind{color:var(--cyan);font-size:12.5px;font-weight:600;}
+  .port-card h3{font-size:18px;margin-top:10px;}
+  .port-card p{color:var(--muted);font-size:14px;margin-top:10px;}
+  .port-card .tech{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;}
+  .port-card .tech span{font-size:11.5px;color:var(--muted-2);border:1px solid var(--border);border-radius:4px;padding:3px 8px;}
+
+  /* ---------- GATED CONTENT ---------- */
+  .gate-wrap{position:relative;}
+  .gate-overlay{
+    position:absolute;inset:0;z-index:20;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    background:linear-gradient(180deg,rgba(6,11,28,0.4),rgba(6,11,28,0.94) 55%);
+    backdrop-filter:blur(3px);
+    border-radius:var(--radius-m);
+    text-align:center;padding:20px;
+  }
+  .gate-overlay .lockicon{width:34px;height:34px;color:var(--cyan);}
+  .gate-overlay h4{font-size:17px;}
+  .gate-overlay p{color:var(--muted);font-size:13.5px;max-width:320px;}
+  .gate-hidden{filter:blur(6px);user-select:none;pointer-events:none;}
+  .unlocked .gate-overlay{display:none;}
+  .unlocked .gate-hidden{filter:none;pointer-events:auto;}
+
+  /* ---------- PRICING ---------- */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .price-card{border:1px solid var(--border);border-radius:var(--radius-m);padding:28px;background:var(--panel);}
+  .price-card.mid{border-color:var(--blue-2);background:var(--panel-2);position:relative;}
+  .price-card .flag{position:absolute;top:-11px;left:28px;background:var(--blue-2);color:#03101F;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;}
+  .price-card h3{font-size:18px;}
+  .price-card .best{color:var(--muted-2);font-size:13px;margin-top:6px;}
+  .price-card .amt{font-family:'Space Grotesk';font-size:30px;margin-top:20px;}
+  .price-card .amt span{font-size:13px;color:var(--muted-2);font-weight:400;font-family:'Inter';}
+  .price-card ul{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .price-card li{display:flex;gap:10px;align-items:flex-start;color:var(--muted);font-size:13.5px;}
+  .price-card li svg{width:14px;height:14px;color:var(--cyan);margin-top:3px;flex:none;}
+  .pricing-public-note{margin-top:26px;color:var(--muted-2);font-size:13.5px;}
+  .app-pkgs{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;}
+  .app-pkgs span{border:1px solid var(--border);padding:8px 16px;border-radius:999px;font-size:13.5px;color:var(--muted);}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;}
+  .quick-actions{display:flex;flex-direction:column;gap:12px;}
+  .qa-btn{display:flex;align-items:center;gap:14px;border:1px solid var(--border);border-radius:var(--radius-m);padding:16px 18px;background:var(--panel);}
+  .qa-btn:hover{border-color:var(--blue-2);}
+  .qa-btn svg{width:20px;height:20px;color:var(--cyan);flex:none;}
+  .qa-btn .t{font-size:14.5px;font-weight:600;}
+  .qa-btn .d{font-size:12.5px;color:var(--muted-2);}
+  .contact-info{margin-top:26px;border-top:1px solid var(--border);padding-top:22px;font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:8px;}
+  form{display:flex;flex-direction:column;gap:14px;}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  label{font-size:13px;color:var(--muted-2);display:block;margin-bottom:6px;}
+  input,select,textarea{
+    width:100%;background:var(--navy-2);border:1px solid var(--border);border-radius:var(--radius-s);
+    padding:11px 13px;color:var(--white);font-size:14.5px;font-family:inherit;
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--blue-2);}
+  textarea{resize:vertical;min-height:90px;}
+  .tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius-s);overflow:hidden;width:fit-content;margin-bottom:22px;}
+  .tab-btn{padding:9px 18px;background:transparent;border:none;color:var(--muted);font-size:13.5px;}
+  .tab-btn.active{background:var(--panel-2);color:var(--white);}
+  .form-panel{display:none;}
+  .form-panel.active{display:block;}
+  .req-list{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .req-item{border:1px solid var(--border);border-radius:var(--radius-s);padding:12px 14px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;}
+  .req-item b{color:var(--white);font-weight:600;}
+  .status-pill{font-size:11px;padding:3px 9px;border-radius:999px;background:var(--panel-2);color:var(--cyan);white-space:nowrap;height:fit-content;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--border);background:var(--navy-2);padding:64px 0 30px;}
+  .foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;}
+  .foot-brand p{color:var(--muted);font-size:13.5px;margin-top:12px;max-width:280px;}
+  .foot-col h5{font-size:13px;color:var(--muted-2);margin-bottom:14px;}
+  .foot-col a{display:block;color:var(--muted);font-size:13.5px;margin-bottom:10px;}
+  .foot-col a:hover{color:var(--cyan);}
+  .foot-bottom{margin-top:50px;padding-top:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--muted-2);font-size:12.5px;flex-wrap:wrap;gap:10px;}
+
+  /* ---------- MODAL ---------- */
+  .modal-back{position:fixed;inset:0;background:rgba(4,7,18,0.72);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+  .modal-back.show{display:flex;}
+  .modal{width:100%;max-width:400px;background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius-m);padding:30px;position:relative;}
+  .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);width:28px;height:28px;}
+  .modal h3{font-size:20px;margin-bottom:4px;}
+  .modal .sub{color:var(--muted);font-size:13.5px;margin-bottom:22px;}
+  .modal form{gap:12px;}
+  .auth-switch{margin-top:18px;text-align:center;font-size:13px;color:var(--muted);}
+  .auth-switch button{background:none;border:none;color:var(--cyan);font-size:13px;font-weight:600;padding:0;}
+  .form-msg{font-size:13px;padding:10px 12px;border-radius:var(--radius-s);display:none;}
+  .form-msg.show{display:block;}
+  .form-msg.err{background:rgba(255,107,107,0.1);color:var(--danger);border:1px solid rgba(255,107,107,0.25);}
+  .form-msg.ok{background:rgba(63,217,164,0.1);color:var(--success);border:1px solid rgba(63,217,164,0.25);}
+  .info-modal{max-width:520px;max-height:70vh;overflow:auto;}
+  .info-modal p{color:var(--muted);font-size:14px;margin-bottom:12px;}
+
+  /* toast */
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--panel-2);border:1px solid var(--border);padding:14px 20px;border-radius:var(--radius-s);font-size:13.5px;z-index:300;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;box-shadow:0 12px 30px rgba(0,0,0,0.4);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toast.err{border-color:rgba(255,107,107,0.4);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:940px){
+    .nav-links{display:none;}
+    .hamburger{display:block;}
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{height:280px;order:-1;}
+    .highlights .wrap{grid-template-columns:repeat(2,1fr);}
+    .h-item{border-right:none;border-bottom:1px solid var(--border);}
+    .about-grid{grid-template-columns:1fr;}
+    .prod-grid{grid-template-columns:1fr;}
+    .port-grid{grid-template-columns:1fr;}
+    .price-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;gap:30px;}
+    .acc-body-in{grid-template-columns:1fr;padding-left:60px;}
+    .frow{grid-template-columns:1fr;}
+    .acc-head .letter{display:none;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important;transition-duration:0.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header>
+  <nav class="wrap">
+    <a href="#home" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <rect x="1" y="1" width="38" height="38" rx="9" stroke="url(#g1)" stroke-width="1.6"/>
+        <circle cx="13" cy="20" r="3" fill="#00D8E8"/>
+        <circle cx="27" cy="12" r="3" fill="#3B6BFF"/>
+        <circle cx="27" cy="28" r="3" fill="#3B6BFF"/>
+        <path d="M13 20L27 12M13 20L27 28" stroke="#5E6892" stroke-width="1.3"/>
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#3B6BFF"/><stop offset="1" stop-color="#00D8E8"/></linearGradient></defs>
+      </svg>
+      <span class="brand-text"><b>Spudy</b><span>INTELLIGENCE TECHNOLOGY</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#products">Products</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-right">
+      <div id="loggedOutBox" style="display:flex;gap:10px;">
+        <button class="btn btn-ghost btn-sm" onclick="openAuth('signin')">Sign in</button>
+        <a href="#contact" class="btn btn-primary btn-sm">Get a quote</a>
+      </div>
+      <div id="loggedInBox" style="display:none;align-items:center;gap:10px;">
+        <div class="user-chip"><span class="dot"></span><span id="userEmailLabel"></span></div>
+        <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
+      </div>
+      <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div id="mobileNav" style="display:none;flex-direction:column;padding:10px 28px 22px;border-top:1px solid var(--border);gap:4px;">
+    <a href="#about" style="padding:10px 0;color:var(--muted)">About</a>
+    <a href="#services" style="padding:10px 0;color:var(--muted)">Services</a>
+    <a href="#products" style="padding:10px 0;color:var(--muted)">Products</a>
+    <a href="#portfolio" style="padding:10px 0;color:var(--muted)">Portfolio</a>
+    <a href="#pricing" style="padding:10px 0;color:var(--muted)">Pricing</a>
+    <a href="#contact" style="padding:10px 0;color:var(--muted)">Contact</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow-line"><span class="bar"></span>Based in Zimbabwe · Working with clients everywhere</div>
+      <h1>We build the <span class="hl">technology</span> your business runs on.</h1>
+      <p class="lead">Websites, apps, marketing systems and print — designed, built and supported by one team, so growth doesn't stall waiting on five different vendors.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-primary">Get a free quote</a>
+        <a href="#portfolio" class="btn btn-ghost">See our work</a>
+      </div>
+      <div class="hero-trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 6 7 1-5 5 1.5 7L12 18l-6.5 3L7 14 2 9l7-1z"/></svg>
+        Founded and operated from Zimbabwe by Matipaishe Muduchwa
+      </div>
+    </div>
+    <div class="hero-visual">
+      <canvas id="netcanvas"></canvas>
+      <span class="tag">Smart Technology. Real Business Growth.</span>
+    </div>
+  </div>
+</section>
+
+<section class="highlights">
+  <div class="wrap">
+    <div class="h-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9s1.3-6.3 3.8-9z"/></svg><span>Website Development</span></div>
+    <div class="h-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg><span>App Development</span></div>
+    <div class="h-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg><span>Sales &amp; Marketing</span></div>
+    <div class="h-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Digital Scaling</span></div>
+    <div class="h-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v7H6z"/></svg><span>Printing &amp; Branding</span></div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="section-pad" id="about">
+  <div class="wrap about-grid">
+    <div class="founder-card">
+      <div class="founder-avatar">MM</div>
+      <h3>Matipaishe Muduchwa</h3>
+      <span class="role">Founder, Spudy Intelligence Technology</span>
+      <p class="bio">Matipaishe started Spudy Intelligence Technology to give Zimbabwean businesses the same technology advantages larger companies take for granted — a website that converts visitors, an app that actually works, and marketing decisions backed by data instead of guesswork.</p>
+    </div>
+    <div class="about-copy">
+      <h2 style="font-size:28px;margin-bottom:16px;">Technology and marketing, under one roof.</h2>
+      <p>Most businesses end up juggling a web developer, a social media freelancer, an app agency and a print shop — each with their own timeline and their own price. Spudy Intelligence Technology builds all of it as one connected system, so your website, your marketing and your brand materials actually work together.</p>
+      <p>We work with small businesses getting online for the first time, and growing companies ready to automate, scale and compete digitally.</p>
+      <div class="mv-row">
+        <div class="mv-box"><h4>Mission</h4><p>Help businesses grow through innovative technology and smart marketing.</p></div>
+        <div class="mv-box"><h4>Vision</h4><p>Become a leading digital solutions company in Zimbabwe and beyond.</p></div>
+      </div>
+      <div class="values-list">
+        <div class="value-row"><span class="vname">Innovation</span><span class="vdesc">We reach for the current best tool for the job, not the familiar default.</span></div>
+        <div class="value-row"><span class="vname">Excellence</span><span class="vdesc">Work ships finished — tested, responsive, and ready for real customers.</span></div>
+        <div class="value-row"><span class="vname">Integrity</span><span class="vdesc">Honest timelines and honest pricing, even when the answer is "not yet."</span></div>
+        <div class="value-row"><span class="vname">Customer Success</span><span class="vdesc">We measure the work by what it does for your business, not how it looks in a portfolio.</span></div>
+        <div class="value-row"><span class="vname">Creativity</span><span class="vdesc">Every brand gets a solution built for its own market, not a template.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ================= SERVICES ================= -->
+<section class="section-pad" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Services</div>
+      <h2>What we do, in four parts.</h2>
+      <p>Click a service to see exactly what's included.</p>
+    </div>
+    <div class="accordion" id="accordion">
+
+      <div class="acc-item open">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <div class="left">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg></div>
+            <div><span class="letter">A</span><h3>Sales &amp; Marketing</h3></div>
+          </div>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-in">
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Brand Strategy</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Social Media Marketing</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Sales Consulting</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Lead Generation</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Customer Growth</div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <div class="left">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9s1.3-6.3 3.8-9z"/></svg></div>
+            <div><span class="letter">B</span><h3>Website Development</h3></div>
+          </div>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-in">
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Business Websites</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Portfolio Websites</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Landing Pages</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>E-commerce</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>GitHub-hosted websites</div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <div class="left">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+            <div><span class="letter">C</span><h3>App Development</h3></div>
+          </div>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-in">
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Android Apps</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Web Apps</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Business Systems</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Custom Solutions</div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <div class="left">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+            <div><span class="letter">D</span><h3>Digital Scaling</h3></div>
+          </div>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-body"><div class="acc-body-in">
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Business Automation</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>SEO</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Digital Transformation</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Online Growth Strategies</div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ================= PRODUCTS ================= -->
+<section class="section-pad" id="products">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Products</div>
+      <h2>Printing &amp; branding materials.</h2>
+      <p>For when your business needs to show up off-screen too.</p>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-col">
+        <h3>Printing</h3>
+        <span class="sub">Physical materials, printed to order</span>
+        <div class="prod-list">
+          <div class="row">Business Cards</div>
+          <div class="row">Flyers</div>
+          <div class="row">Posters</div>
+          <div class="row">Certificates</div>
+          <div class="row">Stickers</div>
+          <div class="row">Banners</div>
+        </div>
+      </div>
+      <div class="prod-col">
+        <h3>Branding</h3>
+        <span class="sub">Documents that carry your identity</span>
+        <div class="prod-list">
+          <div class="row">Company Profiles</div>
+          <div class="row">Letterheads</div>
+          <div class="row">Invoice Books</div>
+          <div class="row">Receipt Books</div>
+          <div class="row">Logos</div>
+        </div>
+      </div>
+    </div>
+    <div class="prod-cta">
+      <div><h4>Need something custom?</h4><p>Send us your specs and quantity, and we'll put together a printing quote.</p></div>
+      <a href="#contact" class="btn btn-primary btn-sm">Request custom printing</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ================= PORTFOLIO ================= -->
+<section class="section-pad" id="portfolio">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Portfolio</div>
+      <h2>What we build.</h2>
+      <p>A look at the kind of work we deliver across websites, apps, marketing and print.</p>
+    </div>
+    <div class="cat-tabs">
+      <button class="cat-tab active">Websites</button>
+      <button class="cat-tab">Mobile Apps</button>
+      <button class="cat-tab">Marketing Campaigns</button>
+      <button class="cat-tab">Printing Projects</button>
+    </div>
+    <div class="port-grid">
+      <div class="port-card">
+        <span class="kind">Website</span>
+        <h3>Business websites built to convert</h3>
+        <p>Fast, mobile-first sites with clear calls to action — built so visitors become enquiries.</p>
+        <div class="tech"><span>HTML/CSS</span><span>Responsive</span><span>SEO-ready</span></div>
+      </div>
+      <div class="port-card">
+        <span class="kind">Mobile App</span>
+        <h3>Android &amp; web apps for growing businesses</h3>
+        <p>From booking systems to internal tools — apps that remove manual work from your day.</p>
+        <div class="tech"><span>Android</span><span>Web App</span><span>Automation</span></div>
+      </div>
+      <div class="port-card">
+        <span class="kind">Marketing</span>
+        <h3>Campaigns built around one goal at a time</h3>
+        <p>Social media and lead-generation campaigns planned around a single, measurable outcome.</p>
+        <div class="tech"><span>Social</span><span>Lead Gen</span><span>Strategy</span></div>
+      </div>
+      <div class="port-card">
+        <span class="kind">Printing</span>
+        <h3>Branded materials that match your website</h3>
+        <p>Business cards, banners and profiles designed to look like the same business as your site.</p>
+        <div class="tech"><span>Print</span><span>Branding</span><span>Design</span></div>
+      </div>
+    </div>
+
+    <div class="gate-wrap unlocked" id="gate-portfolio" style="margin-top:40px;">
+      <div class="gate-hidden" style="border:1px solid var(--border);border-radius:var(--radius-m);padding:28px;background:var(--panel);">
+        <h3 style="font-size:17px;margin-bottom:10px;">Full case studies</h3>
+        <p style="color:var(--muted);font-size:14px;">Detailed breakdowns of past projects — the brief, the build, and the result — are shared with registered clients. Sign in to view them, or request access when you send a quote.</p>
+      </div>
+      <div class="gate-overlay">
+        <svg class="lockicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+        <h4>Sign in to view full case studies</h4>
+        <p>Create a free account to see detailed project breakdowns.</p>
+        <button class="btn btn-primary btn-sm" onclick="openAuth('signup')">Create free account</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ================= PRICING ================= -->
+<section class="section-pad" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Pricing</div>
+      <h2>Packages for every stage.</h2>
+      <p>Public overview below — sign in for full pricing and to request a custom quote.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Starter</h3>
+        <p class="best">Best for small businesses</p>
+      </div>
+      <div class="price-card mid">
+        <span class="flag">Most popular</span>
+        <h3>Business</h3>
+        <p class="best">Best for growing companies</p>
+      </div>
+      <div class="price-card">
+        <h3>Premium</h3>
+        <p class="best">Best for custom solutions</p>
+      </div>
+    </div>
+    <p class="pricing-public-note">App packages: Basic · Advanced · Enterprise. Printing pricing available on request.</p>
+
+    <div class="gate-wrap unlocked" id="gate-pricing" style="margin-top:34px;">
+      <div class="gate-hidden">
+        <div class="price-grid">
+          <div class="price-card">
+            <h3>Starter</h3>
+            <p class="best">Best for small businesses</p>
+            <div class="amt">$150 <span>one-time</span></div>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Up to 5 pages</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Mobile responsive</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Contact form</li>
+            </ul>
+          </div>
+          <div class="price-card mid">
+            <span class="flag">Most popular</span>
+            <h3>Business</h3>
+            <p class="best">Best for growing companies</p>
+            <div class="amt">$350 <span>one-time</span></div>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Up to 12 pages</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Basic SEO setup</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Analytics &amp; forms</li>
+            </ul>
+          </div>
+          <div class="price-card">
+            <h3>Premium</h3>
+            <p class="best">Best for custom solutions</p>
+            <div class="amt">Custom</div>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Unlimited pages</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>E-commerce / app integration</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Ongoing support plan</li>
+            </ul>
+          </div>
+        </div>
+        <p style="color:var(--muted-2);font-size:12px;margin-top:14px;">Example pricing shown — final figures confirmed on quote.</p>
+      </div>
+      <div class="gate-overlay">
+        <svg class="lockicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+        <h4>Sign in to see full pricing</h4>
+        <p>Create a free account to view detailed package pricing.</p>
+        <button class="btn btn-primary btn-sm" onclick="openAuth('signup')">Create free account</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ================= CONTACT ================= -->
+<section class="section-pad" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="sec-kicker">Contact</div>
+      <h2 style="font-size:28px;margin-bottom:20px;">Let's talk about your project.</h2>
+      <div class="quick-actions">
+        <a class="qa-btn" href="https://wa.me/263716669706" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <div><div class="t">WhatsApp</div><div class="d">+263 71 666 9706</div></div>
+        </a>
+        <a class="qa-btn" href="mailto:spudytv14@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+          <div><div class="t">Email</div><div class="d">spudytv14@gmail.com</div></div>
+        </a>
+        <a class="qa-btn" href="tel:+263716669706">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 2 .6 3a2 2 0 01-.5 2.1L8 10a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c1 .3 2 .5 3 .6a2 2 0 011.7 2z"/></svg>
+          <div><div class="t">Call</div><div class="d">+263 71 666 9706</div></div>
+        </a>
+      </div>
+      <div class="contact-info">
+        <span>Zimbabwe</span>
+        <span>X: @Matipa_14</span>
+        <span>YouTube: @SpudyAI</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchFormTab('quick')">Quick message</button>
+        <button class="tab-btn" onclick="switchFormTab('quote')">Request a full quote</button>
+      </div>
+
+      <div class="form-panel active" id="panel-quick">
+        <form id="quickForm">
+          <div class="frow">
+            <div><label>Name</label><input type="text" required id="q-name"></div>
+            <div><label>Email</label><input type="email" required id="q-email"></div>
+          </div>
+          <div><label>Message</label><textarea required id="q-message" placeholder="Tell us a little about what you need..."></textarea></div>
+          <button class="btn btn-primary" type="submit" style="align-self:flex-start;">Send message</button>
+          <p style="font-size:12.5px;color:var(--muted-2);">Opens your email app — no account needed.</p>
+        </form>
+      </div>
+
+      <div class="form-panel" id="panel-quote">
+        <div class="gate-wrap unlocked" id="gate-quote">
+          <div class="gate-hidden">
+            <form id="quoteForm">
+              <div class="frow">
+                <div><label>Name</label><input type="text" required id="qq-name"></div>
+                <div><label>Email</label><input type="email" required id="qq-email"></div>
+              </div>
+              <div class="frow">
+                <div><label>Phone</label><input type="text" id="qq-phone"></div>
+                <div><label>Company</label><input type="text" id="qq-company"></div>
+              </div>
+              <div class="frow">
+                <div>
+                  <label>Service required</label>
+                  <select id="qq-service">
+                    <option>Website Development</option>
+                    <option>App Development</option>
+                    <option>Sales &amp; Marketing</option>
+                    <option>Digital Scaling</option>
+                    <option>Printing &amp; Branding</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Budget</label>
+                  <select id="qq-budget">
+                    <option>Under $150</option>
+                    <option>$150 - $350</option>
+                    <option>$350 - $1000</option>
+                    <option>$1000+</option>
+                  </select>
+                </div>
+              </div>
+              <div><label>Message</label><textarea id="qq-message" placeholder="Project details, timeline, anything else we should know..."></textarea></div>
+              <div class="form-msg" id="quoteMsg"></div>
+              <button class="btn btn-primary" type="submit" style="align-self:flex-start;">Send quote request</button>
+            </form>
+
+            <div id="myRequestsBox" style="margin-top:34px;">
+              <h4 style="font-size:14px;color:var(--muted-2);margin-bottom:10px;">Your requests</h4>
+              <div class="req-list" id="reqList"></div>
+            </div>
+          </div>
+          <div class="gate-overlay">
+            <svg class="lockicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+            <h4>Sign in to request a full quote</h4>
+            <p>Create a free account to submit a detailed quote request and track its status.</p>
+            <button class="btn btn-primary btn-sm" onclick="openAuth('signup')">Create free account</button>
+            <button class="btn btn-ghost btn-sm" onclick="openAuth('signin')">Sign in</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+            <rect x="1" y="1" width="38" height="38" rx="9" stroke="url(#g2)" stroke-width="1.6"/>
+            <circle cx="13" cy="20" r="3" fill="#00D8E8"/><circle cx="27" cy="12" r="3" fill="#3B6BFF"/><circle cx="27" cy="28" r="3" fill="#3B6BFF"/>
+            <path d="M13 20L27 12M13 20L27 28" stroke="#5E6892" stroke-width="1.3"/>
+            <defs><linearGradient id="g2" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#3B6BFF"/><stop offset="1" stop-color="#00D8E8"/></linearGradient></defs>
+          </svg>
+          <span class="brand-text"><b>Spudy Intelligence Technology</b></span>
+        </div>
+        <p>Smart Technology. Real Business Growth. Websites, apps, marketing and print — built and supported from Zimbabwe.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="https://wa.me/263716669706" target="_blank" rel="noopener">WhatsApp: +263 71 666 9706</a>
+        <a href="mailto:spudytv14@gmail.com">spudytv14@gmail.com</a>
+        <a href="#" onclick="openInfo('privacy');return false;">Privacy Policy</a>
+        <a href="#" onclick="openInfo('terms');return false;">Terms &amp; Conditions</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Spudy Intelligence Technology. All Rights Reserved.</span>
+      <span>Zimbabwe</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= AUTH MODAL ================= -->
+<div class="modal-back" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuth()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 id="authTitle">Sign in</h3>
+    <p class="sub" id="authSub">Access full pricing, case studies and your quote history.</p>
+    <div class="form-msg" id="authMsg"></div>
+    <form id="authForm">
+      <div><label>Email</label><input type="email" required id="auth-email"></div>
+      <div><label>Password</label><input type="password" required id="auth-password" minlength="6"></div>
+      <button class="btn btn-primary" type="submit" id="authSubmitBtn" style="margin-top:6px;">Sign in</button>
+    </form>
+    <div class="auth-switch" id="authSwitchWrap">
+      Don't have an account? <button onclick="setAuthMode('signup')">Create one</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= INFO MODAL ================= -->
+<div class="modal-back" id="infoModal">
+  <div class="modal info-modal">
+    <button class="modal-close" onclick="closeInfo()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 id="infoTitle">Privacy Policy</h3>
+    <div id="infoBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ SUPABASE SETUP ============ */
+const SUPABASE_URL = 'https://ijpvyslgopwqtochosou.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_PC5hpO8sNe2tY1h2Va6adw_Z-978sXx';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let authMode = 'signin';
+let currentUser = null;
+
+/* ============ TOAST ============ */
+function showToast(msg, isErr){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isErr ? ' err' : '');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>{ t.className='toast'; }, 3800);
+}
+
+/* ============ MOBILE NAV ============ */
+function toggleMobileNav(){
+  const m = document.getElementById('mobileNav');
+  m.style.display = (m.style.display === 'none' || !m.style.display) ? 'flex' : 'none';
+}
+document.querySelectorAll('#mobileNav a').forEach(a=>a.addEventListener('click',()=>{
+  document.getElementById('mobileNav').style.display='none';
+}));
+
+/* ============ ACCORDION ============ */
+function toggleAcc(btn){
+  const item = btn.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+
+/* ============ CONTACT TABS ============ */
+function switchFormTab(which){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('panel-'+which).classList.add('active');
+}
+
+/* ============ AUTH MODAL ============ */
+function openAuth(mode){
+  setAuthMode(mode || 'signin');
+  document.getElementById('authModal').classList.add('show');
+}
+function closeAuth(){
+  document.getElementById('authModal').classList.remove('show');
+  document.getElementById('authMsg').className = 'form-msg';
+}
+function setAuthMode(mode){
+  authMode = mode;
+  const title = document.getElementById('authTitle');
+  const sub = document.getElementById('authSub');
+  const btn = document.getElementById('authSubmitBtn');
+  const switchWrap = document.getElementById('authSwitchWrap');
+  if(mode === 'signup'){
+    title.textContent = 'Create your account';
+    sub.textContent = 'Free — unlocks full pricing, case studies and quote tracking.';
+    btn.textContent = 'Create account';
+    switchWrap.innerHTML = 'Already have an account? <button onclick="setAuthMode(\'signin\')">Sign in</button>';
+  } else {
+    title.textContent = 'Sign in';
+    sub.textContent = 'Access full pricing, case studies and your quote history.';
+    btn.textContent = 'Sign in';
+    switchWrap.innerHTML = 'Don\'t have an account? <button onclick="setAuthMode(\'signup\')">Create one</button>';
+  }
+  document.getElementById('authMsg').className = 'form-msg';
+}
+
+document.getElementById('authForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const msg = document.getElementById('authMsg');
+  const btn = document.getElementById('authSubmitBtn');
+  btn.disabled = true;
+  try{
+    if(authMode === 'signup'){
+      const { data, error } = await sb.auth.signUp({ email, password });
+      if(error) throw error;
+      if(data.user && !data.session){
+        msg.textContent = 'Account created — check your email to confirm, then sign in.';
+        msg.className = 'form-msg show ok';
+        btn.disabled = false;
+        return;
+      }
+    } else {
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if(error) throw error;
+    }
+    closeAuth();
+    showToast(authMode === 'signup' ? 'Account created — welcome!' : 'Signed in.');
+  } catch(err){
+    msg.textContent = err.message || 'Something went wrong. Please try again.';
+    msg.className = 'form-msg show err';
+  }
+  btn.disabled = false;
+});
+
+async function signOut(){
+  await sb.auth.signOut();
+  showToast('Signed out.');
+}
+
+/* ============ AUTH STATE -> UI ============ */
+function applyAuthUI(user){
+  currentUser = user;
+  const inBox = document.getElementById('loggedInBox');
+  const outBox = document.getElementById('loggedOutBox');
+  const gates = document.querySelectorAll('.gate-wrap');
+  if(user){
+    inBox.style.display = 'flex';
+    outBox.style.display = 'none';
+    document.getElementById('userEmailLabel').textContent = user.email;
+    gates.forEach(g=>g.classList.add('unlocked'));
+    loadMyRequests();
+  } else {
+    inBox.style.display = 'none';
+    outBox.style.display = 'flex';
+    gates.forEach(g=>g.classList.remove('unlocked'));
+  }
+}
+
+sb.auth.onAuthStateChange((_event, session)=>{
+  applyAuthUI(session ? session.user : null);
+});
+sb.auth.getSession().then(({ data })=>{
+  applyAuthUI(data.session ? data.session.user : null);
+});
+
+/* ============ QUICK CONTACT FORM (public, no account) ============ */
+document.getElementById('quickForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const name = document.getElementById('q-name').value;
+  const email = document.getElementById('q-email').value;
+  const message = document.getElementById('q-message').value;
+  const subject = encodeURIComponent('Website enquiry from ' + name);
+  const body = encodeURIComponent(message + '\n\nFrom: ' + name + ' (' + email + ')');
+  window.location.href = 'mailto:spudytv14@gmail.com?subject=' + subject + '&body=' + body;
+  showToast('Opening your email app...');
+});
+
+/* ============ FULL QUOTE FORM (gated, saved to Supabase) ============ */
+document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const msg = document.getElementById('quoteMsg');
+  if(!currentUser){ openAuth('signin'); return; }
+  const payload = {
+    user_id: currentUser.id,
+    name: document.getElementById('qq-name').value,
+    email: document.getElementById('qq-email').value,
+    phone: document.getElementById('qq-phone').value,
+    company: document.getElementById('qq-company').value,
+    service: document.getElementById('qq-service').value,
+    budget: document.getElementById('qq-budget').value,
+    message: document.getElementById('qq-message').value
+  };
+  try{
+    const { error } = await sb.from('quote_requests').insert([payload]);
+    if(error) throw error;
+    msg.textContent = 'Quote request sent — we\'ll be in touch within 24 hours.';
+    msg.className = 'form-msg show ok';
+    document.getElementById('quoteForm').reset();
+    loadMyRequests();
+  } catch(err){
+    msg.textContent = 'Couldn\'t save your request automatically. Please also reach us on WhatsApp.';
+    msg.className = 'form-msg show err';
+  }
+});
+
+async function loadMyRequests(){
+  const list = document.getElementById('reqList');
+  if(!currentUser){ list.innerHTML=''; return; }
+  try{
+    const { data, error } = await sb
+      .from('quote_requests')
+      .select('*')
+      .eq('user_id', currentUser.id)
+      .order('created_at', { ascending: false });
+    if(error) throw error;
+    if(!data || data.length === 0){
+      list.innerHTML = '<div class="req-item" style="color:var(--muted-2)">No requests yet — submit the form above.</div>';
+      return;
+    }
+    list.innerHTML = data.map(r => `
+      <div class="req-item">
+        <span><b>${r.service || 'Enquiry'}</b> — ${r.message ? r.message.slice(0,60) : 'No details'}${r.message && r.message.length>60?'…':''}</span>
+        <span class="status-pill">${r.status || 'received'}</span>
+      </div>
+    `).join('');
+  } catch(err){
+    list.innerHTML = '<div class="req-item" style="color:var(--muted-2)">Your request history isn\'t available right now.</div>';
+  }
+}
+
+/* ============ INFO MODAL ============ */
+const infoContent = {
+  privacy: { title:'Privacy Policy', body:'<p>Spudy Intelligence Technology collects the information you submit through our contact and quote forms — your name, email, phone number and project details — solely to respond to your enquiry and deliver services.</p><p>Account information (email and password) is managed securely through our authentication provider and is never shared with third parties.</p><p>For any privacy questions, contact us at spudytv14@gmail.com.</p>' },
+  terms: { title:'Terms & Conditions', body:'<p>By requesting a quote or creating an account, you agree that project timelines, pricing and deliverables will be confirmed in writing before work begins.</p><p>Full terms specific to your project will be shared as part of your quote.</p><p>For any questions, contact us at spudytv14@gmail.com.</p>' }
+};
+function openInfo(key){
+  document.getElementById('infoTitle').textContent = infoContent[key].title;
+  document.getElementById('infoBody').innerHTML = infoContent[key].body;
+  document.getElementById('infoModal').classList.add('show');
+}
+function closeInfo(){ document.getElementById('infoModal').classList.remove('show'); }
+
+/* click-outside to close modals */
+document.querySelectorAll('.modal-back').forEach(m=>{
+  m.addEventListener('click', (e)=>{ if(e.target === m) m.classList.remove('show'); });
+});
+
+/* ============ HERO NETWORK CANVAS ============ */
+(function(){
+  const canvas = document.getElementById('netcanvas');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w, h, nodes = [];
+  const NODE_COUNT = 34;
+
+  function resize(){
+    w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+    h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+  }
+  function init(){
+    resize();
+    nodes = Array.from({length: NODE_COUNT}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      vx: (Math.random()-0.5)*0.25*devicePixelRatio,
+      vy: (Math.random()-0.5)*0.25*devicePixelRatio,
+      r: (Math.random()*1.6+1)*devicePixelRatio
+    }));
+  }
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    for(const n of nodes){
+      if(!reduceMotion){
+        n.x += n.vx; n.y += n.vy;
+        if(n.x<0||n.x>w) n.vx*=-1;
+        if(n.y<0||n.y>h) n.vy*=-1;
+      }
+    }
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i], b=nodes[j];
+        const dx=a.x-b.x, dy=a.y-b.y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        const maxDist = 150*devicePixelRatio;
+        if(dist < maxDist){
+          ctx.strokeStyle = 'rgba(94,134,255,' + (0.22*(1-dist/maxDist)) + ')';
+          ctx.lineWidth = devicePixelRatio*0.7;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    for(const n of nodes){
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle = '#00D8E8';
+      ctx.globalAlpha = 0.85;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    if(!reduceMotion) requestAnimationFrame(step);
+  }
+  window.addEventListener('resize', ()=>{ resize(); });
+  init();
+  step();
+})();
+</script>
+</body>
+</html>
