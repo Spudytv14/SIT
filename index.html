@@ -71,6 +71,34 @@
   .brand-text{display:flex;flex-direction:column;line-height:1.1;}
   .brand-text b{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;}
   .brand-text span{font-size:10.5px;color:var(--muted);letter-spacing:0.02em;}
+  .brand-gold {
+    background: linear-gradient(135deg, #FFD700, #B8860B);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hl-gold {
+    background: linear-gradient(135deg, #FFD700, #B8860B);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .gold-badge {
+    background: linear-gradient(135deg, #FFD700, #B8860B);
+    color: #000;
+    padding: 10px 20px;
+    border-radius: var(--radius-m);
+    font-weight: bold;
+    font-family: 'Space Grotesk';
+    box-shadow: 0 4px 12px rgba(255,215,0,0.3);
+    animation: float 4s ease-in-out infinite;
+    font-size: 14px;
+    z-index: 2;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
   .nav-links{display:flex;align-items:center;gap:30px;}
   .nav-links a{
     font-size:14.5px;color:var(--muted);font-weight:500;
@@ -111,7 +139,6 @@
   .hero-trust{margin-top:40px;display:flex;align-items:center;gap:12px;color:var(--muted-2);font-size:13px;}
   .hero-trust svg{width:16px;height:16px;flex:none;color:var(--cyan);}
   .hero-visual{position:relative;height:420px;border-radius:var(--radius-m);border:1px solid var(--border);background:radial-gradient(circle at 30% 20%,rgba(29,78,216,0.1),transparent 60%),var(--panel);overflow:hidden;}
-  #netcanvas{width:100%;height:100%;display:block;}
   .hero-visual .tag{position:absolute;left:18px;bottom:18px;background:rgba(255,255,255,0.8);border:1px solid var(--border);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--muted);backdrop-filter:blur(6px);}
 
   /* highlight strip */
@@ -276,6 +303,14 @@
   .info-modal{max-width:520px;max-height:70vh;overflow:auto;}
   .info-modal p{color:var(--muted);font-size:14px;margin-bottom:12px;}
 
+  /* toggle switch */
+  .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border); transition: .3s; border-radius: 22px; }
+  .toggle-slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: var(--panel-2); transition: .3s; border-radius: 50%; }
+  .toggle-switch input:checked + .toggle-slider { background-color: var(--cyan); }
+  .toggle-switch input:checked + .toggle-slider:before { transform: translateX(18px); }
+
   /* toast */
   .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--panel-2);border:1px solid var(--border);padding:14px 20px;border-radius:var(--radius-s);font-size:13.5px;z-index:300;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;box-shadow:0 12px 30px rgba(0,0,0,0.4);}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -308,7 +343,7 @@
 <header>
   <nav class="wrap">
     <a href="#home" class="brand">
-      <span class="brand-text"><b>Spudy</b><span>INTELLIGENCE TECHNOLOGY</span></span>
+      <span class="brand-text"><b class="brand-gold">Spudy Tech</b></span>
     </a>
     <div class="nav-links">
       <a href="#about">About</a>
@@ -323,6 +358,7 @@
       </div>
       <div id="loggedInBox" style="display:none;align-items:center;gap:10px;">
         <div class="user-chip"><span class="dot"></span><span id="userEmailLabel"></span></div>
+        <button class="btn btn-ghost btn-sm" onclick="openSettings()">Settings</button>
         <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
       </div>
       <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
@@ -343,7 +379,7 @@
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow-line"><span class="bar"></span>Based in Zimbabwe · Working with clients everywhere</div>
-      <h1>We build the <span class="hl">technology</span> your business runs on.</h1>
+      <h1>Welcome to <span class="hl-gold">Spudy Tech</span>.</h1>
       <p class="lead">Websites, apps, marketing systems and print — designed, built and supported by one team, so growth doesn't stall waiting on five different vendors.</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-primary">Get a free quote</a>
@@ -354,8 +390,9 @@
         Founded and operated from Zimbabwe by Matipaishe Muduchwa
       </div>
     </div>
-    <div class="hero-visual">
-      <canvas id="netcanvas"></canvas>
+    <div class="hero-visual" style="display:flex; justify-content:center; align-items:center;">
+      <div class="gold-badge" style="position:absolute; top:20%; left:20%;">Premium Quality</div>
+      <div class="gold-badge" style="position:absolute; bottom:30%; right:20%; animation-delay:1s;">Enterprise Grade</div>
       <span class="tag">Smart Technology. Real Business Growth.</span>
     </div>
   </div>
@@ -680,7 +717,7 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <div class="brand">
-          <span class="brand-text"><b>Spudy Intelligence Technology</b></span>
+          <span class="brand-text"><b class="brand-gold">Spudy Tech</b></span>
         </div>
         <p>Smart Technology. Real Business Growth. Websites, apps, marketing and print — built and supported from Zimbabwe.</p>
       </div>
@@ -704,6 +741,23 @@
     </div>
   </div>
 </footer>
+
+<!-- ================= SETTINGS MODAL ================= -->
+<div class="modal-back" id="settingsModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSettings()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3>Settings</h3>
+    <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
+      <span style="color:var(--muted); font-size:14.5px;">Email Notifications</span>
+      <label class="toggle-switch">
+        <input type="checkbox" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+</div>
 
 <!-- ================= AUTH MODAL ================= -->
 <div class="modal-back" id="authModal">
@@ -808,6 +862,14 @@ function switchFormTab(which){
   document.querySelectorAll('.form-panel').forEach(p=>p.classList.remove('active'));
   event.currentTarget.classList.add('active');
   document.getElementById('panel-'+which).classList.add('active');
+}
+
+/* ============ SETTINGS MODAL ============ */
+function openSettings(){
+  document.getElementById('settingsModal').classList.add('show');
+}
+function closeSettings(){
+  document.getElementById('settingsModal').classList.remove('show');
 }
 
 /* ============ AUTH MODAL ============ */
@@ -932,6 +994,11 @@ document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
     if(error) throw error;
     msg.textContent = 'Quote request sent — we\'ll be in touch within 24 hours.';
     msg.className = 'form-msg show ok';
+
+    const subject = encodeURIComponent('Full Quote Request from ' + payload.name);
+    const body = encodeURIComponent(`Name: ${payload.name}\nEmail: ${payload.email}\nPhone: ${payload.phone}\nCompany: ${payload.company}\nService: ${payload.service}\nBudget: ${payload.budget}\nMessage: ${payload.message}`);
+    window.location.href = 'mailto:spudytv@gmail.com?subject=' + subject + '&body=' + body;
+
     document.getElementById('quoteForm').reset();
     loadMyRequests();
   } catch(err){
@@ -982,63 +1049,6 @@ document.querySelectorAll('.modal-back').forEach(m=>{
   m.addEventListener('click', (e)=>{ if(e.target === m) m.classList.remove('show'); });
 });
 
-/* ============ HERO NETWORK CANVAS ============ */
-(function(){
-  const canvas = document.getElementById('netcanvas');
-  const ctx = canvas.getContext('2d');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let w, h, nodes = [];
-  const NODE_COUNT = 34;
-
-  function resize(){
-    w = canvas.width = canvas.offsetWidth * devicePixelRatio;
-    h = canvas.height = canvas.offsetHeight * devicePixelRatio;
-  }
-  function init(){
-    resize();
-    nodes = Array.from({length: NODE_COUNT}, () => ({
-      x: Math.random()*w, y: Math.random()*h,
-      vx: (Math.random()-0.5)*0.25*devicePixelRatio,
-      vy: (Math.random()-0.5)*0.25*devicePixelRatio,
-      r: (Math.random()*1.6+1)*devicePixelRatio
-    }));
-  }
-  function step(){
-    ctx.clearRect(0,0,w,h);
-    for(const n of nodes){
-      if(!reduceMotion){
-        n.x += n.vx; n.y += n.vy;
-        if(n.x<0||n.x>w) n.vx*=-1;
-        if(n.y<0||n.y>h) n.vy*=-1;
-      }
-    }
-    for(let i=0;i<nodes.length;i++){
-      for(let j=i+1;j<nodes.length;j++){
-        const a=nodes[i], b=nodes[j];
-        const dx=a.x-b.x, dy=a.y-b.y;
-        const dist=Math.sqrt(dx*dx+dy*dy);
-        const maxDist = 150*devicePixelRatio;
-        if(dist < maxDist){
-          ctx.strokeStyle = 'rgba(94,134,255,' + (0.22*(1-dist/maxDist)) + ')';
-          ctx.lineWidth = devicePixelRatio*0.7;
-          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-        }
-      }
-    }
-    for(const n of nodes){
-      ctx.beginPath();
-      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-      ctx.fillStyle = '#0284C7';
-      ctx.globalAlpha = 0.85;
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-    if(!reduceMotion) requestAnimationFrame(step);
-  }
-  window.addEventListener('resize', ()=>{ resize(); });
-  init();
-  step();
-})();
 </script>
 </body>
 </html>
