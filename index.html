@@ -11,19 +11,19 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --navy:#060B1C;
-    --navy-2:#0A1230;
-    --panel:#0D1530;
-    --panel-2:#101C42;
-    --border:rgba(148,168,224,0.14);
-    --blue:#3B6BFF;
-    --blue-2:#5E86FF;
-    --cyan:#00D8E8;
-    --white:#F3F6FC;
-    --muted:#8C96BE;
-    --muted-2:#5E6892;
-    --danger:#FF6B6B;
-    --success:#3FD9A4;
+    --navy:#FFFFFF;
+    --navy-2:#F0F4F8;
+    --panel:#F9FAFB;
+    --panel-2:#FFFFFF;
+    --border:rgba(0,0,0,0.1);
+    --blue:#1D4ED8;
+    --blue-2:#2563EB;
+    --cyan:#0284C7;
+    --white:#111827;
+    --muted:#4B5563;
+    --muted-2:#6B7280;
+    --danger:#EF4444;
+    --success:#10B981;
     --radius-s:6px;
     --radius-m:10px;
     --maxw:1180px;
@@ -58,7 +58,7 @@
   /* ---------- NAV ---------- */
   header{
     position:sticky;top:0;z-index:80;
-    background:rgba(6,11,28,0.86);
+    background:rgba(255,255,255,0.9);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
   }
@@ -110,9 +110,9 @@
   .hero-ctas{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
   .hero-trust{margin-top:40px;display:flex;align-items:center;gap:12px;color:var(--muted-2);font-size:13px;}
   .hero-trust svg{width:16px;height:16px;flex:none;color:var(--cyan);}
-  .hero-visual{position:relative;height:420px;border-radius:var(--radius-m);border:1px solid var(--border);background:radial-gradient(circle at 30% 20%,rgba(59,107,255,0.18),transparent 60%),var(--panel);overflow:hidden;}
+  .hero-visual{position:relative;height:420px;border-radius:var(--radius-m);border:1px solid var(--border);background:radial-gradient(circle at 30% 20%,rgba(29,78,216,0.1),transparent 60%),var(--panel);overflow:hidden;}
   #netcanvas{width:100%;height:100%;display:block;}
-  .hero-visual .tag{position:absolute;left:18px;bottom:18px;background:rgba(6,11,28,0.7);border:1px solid var(--border);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--muted);backdrop-filter:blur(6px);}
+  .hero-visual .tag{position:absolute;left:18px;bottom:18px;background:rgba(255,255,255,0.8);border:1px solid var(--border);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--muted);backdrop-filter:blur(6px);}
 
   /* highlight strip */
   .highlights{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--navy-2);}
@@ -148,37 +148,34 @@
   .value-row .vname{width:130px;flex:none;font-family:'Space Grotesk';font-size:15px;font-weight:600;color:var(--cyan);}
   .value-row .vdesc{color:var(--muted);font-size:14.5px;}
 
-  /* ---------- SERVICES ACCORDION ---------- */
-  .accordion{border-top:1px solid var(--border);}
-  .acc-item{border-bottom:1px solid var(--border);}
-  .acc-head{
+  /* ---------- SERVICES CARDS ---------- */
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;margin-top:20px;}
+  .service-card{border:1px solid var(--border);border-radius:var(--radius-m);background:var(--panel);overflow:hidden;transition:box-shadow .2s ease;}
+  .service-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.04);}
+  .service-head{
     width:100%;display:flex;align-items:center;justify-content:space-between;
-    background:none;border:none;color:var(--white);padding:26px 4px;text-align:left;
+    background:none;border:none;color:var(--white);padding:24px;text-align:left;cursor:pointer;
   }
-  .acc-head .left{display:flex;align-items:center;gap:18px;}
-  .acc-head .icon{width:40px;height:40px;border-radius:var(--radius-s);background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex:none;}
-  .acc-head .icon svg{width:19px;height:19px;color:var(--cyan);}
-  .acc-head h3{font-size:19px;}
-  .acc-head .letter{color:var(--muted-2);font-size:13px;font-family:'Space Grotesk';}
-  .acc-head .chev{width:18px;height:18px;color:var(--muted);transition:transform .2s;flex:none;}
-  .acc-item.open .chev{transform:rotate(180deg);}
-  .acc-body{max-height:0;overflow:hidden;transition:max-height .28s ease;}
-  .acc-item.open .acc-body{max-height:260px;}
-  .acc-body-in{padding:0 4px 28px 78px;display:grid;grid-template-columns:1fr 1fr;gap:10px 30px;}
-  .acc-body-in .off{color:var(--muted);font-size:14.5px;display:flex;gap:10px;align-items:center;}
-  .acc-body-in .off svg{width:14px;height:14px;color:var(--cyan);flex:none;}
+  .service-head .left{display:flex;align-items:center;gap:16px;}
+  .service-head .icon{width:48px;height:48px;border-radius:var(--radius-s);background:var(--panel-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex:none;}
+  .service-head .icon svg{width:22px;height:22px;color:var(--cyan);}
+  .service-head h3{font-size:18px;}
+  .service-head .chev{width:20px;height:20px;color:var(--muted);transition:transform .28s ease;flex:none;}
+  .service-card.open .chev{transform:rotate(180deg);}
+  .service-body{max-height:0;overflow:hidden;transition:max-height .35s ease;background:var(--navy-2);}
+  .service-card.open .service-body{max-height:800px;} /* Increased for calculator */
+  .service-body-in{padding:24px;border-top:1px solid var(--border);}
+  .service-body-in .off{color:var(--muted);font-size:14.5px;display:flex;gap:10px;align-items:center;margin-bottom:12px;}
+  .service-body-in .off:last-child{margin-bottom:0;}
+  .service-body-in .off svg{width:16px;height:16px;color:var(--cyan);flex:none;}
 
-  /* ---------- PRODUCTS ---------- */
-  .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-m);overflow:hidden;}
-  .prod-col{background:var(--navy);padding:32px;}
-  .prod-col h3{font-size:18px;margin-bottom:6px;}
-  .prod-col .sub{color:var(--muted-2);font-size:13.5px;}
-  .prod-list{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
-  .prod-list .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px;color:var(--muted);}
-  .prod-list .row:last-child{border-bottom:none;}
-  .prod-cta{margin-top:80px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;padding:30px;border:1px solid var(--border);border-radius:var(--radius-m);background:linear-gradient(120deg,rgba(59,107,255,0.08),rgba(0,216,232,0.05));}
-  .prod-cta p{color:var(--muted);font-size:14.5px;max-width:420px;}
-  .prod-cta h4{font-size:18px;margin-bottom:6px;}
+  /* Calculator Styles */
+  .calc-wrap{margin-top:24px;padding-top:20px;border-top:1px solid var(--border);}
+  .calc-wrap h4{font-size:15px;margin-bottom:12px;color:var(--white);}
+  .calc-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .calc-row input[type="number"]{width:80px;padding:8px;font-size:14px;background:var(--panel);color:var(--white);border:1px solid var(--border);border-radius:var(--radius-s);}
+  .calc-result{font-family:'Space Grotesk';font-size:22px;color:var(--cyan);font-weight:700;margin-top:10px;}
+  .calc-result span{font-size:13px;color:var(--muted);font-weight:400;font-family:'Inter';margin-left:6px;}
 
   /* ---------- PORTFOLIO ---------- */
   .cat-tabs{display:flex;gap:10px;margin-bottom:34px;flex-wrap:wrap;}
@@ -197,7 +194,7 @@
   .gate-overlay{
     position:absolute;inset:0;z-index:20;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-    background:linear-gradient(180deg,rgba(6,11,28,0.4),rgba(6,11,28,0.94) 55%);
+    background:linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.95) 55%);
     backdrop-filter:blur(3px);
     border-radius:var(--radius-m);
     text-align:center;padding:20px;
@@ -263,7 +260,7 @@
   .foot-bottom{margin-top:50px;padding-top:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--muted-2);font-size:12.5px;flex-wrap:wrap;gap:10px;}
 
   /* ---------- MODAL ---------- */
-  .modal-back{position:fixed;inset:0;background:rgba(4,7,18,0.72);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+  .modal-back{position:fixed;inset:0;background:rgba(255,255,255,0.8);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
   .modal-back.show{display:flex;}
   .modal{width:100%;max-width:400px;background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius-m);padding:30px;position:relative;}
   .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);width:28px;height:28px;}
@@ -293,14 +290,11 @@
     .highlights .wrap{grid-template-columns:repeat(2,1fr);}
     .h-item{border-right:none;border-bottom:1px solid var(--border);}
     .about-grid{grid-template-columns:1fr;}
-    .prod-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr;}
     .port-grid{grid-template-columns:1fr;}
-    .price-grid{grid-template-columns:1fr;}
     .contact-grid{grid-template-columns:1fr;}
     .foot-grid{grid-template-columns:1fr;gap:30px;}
-    .acc-body-in{grid-template-columns:1fr;padding-left:60px;}
     .frow{grid-template-columns:1fr;}
-    .acc-head .letter{display:none;}
   }
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto;}
@@ -314,22 +308,12 @@
 <header>
   <nav class="wrap">
     <a href="#home" class="brand">
-      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
-        <rect x="1" y="1" width="38" height="38" rx="9" stroke="url(#g1)" stroke-width="1.6"/>
-        <circle cx="13" cy="20" r="3" fill="#00D8E8"/>
-        <circle cx="27" cy="12" r="3" fill="#3B6BFF"/>
-        <circle cx="27" cy="28" r="3" fill="#3B6BFF"/>
-        <path d="M13 20L27 12M13 20L27 28" stroke="#5E6892" stroke-width="1.3"/>
-        <defs><linearGradient id="g1" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#3B6BFF"/><stop offset="1" stop-color="#00D8E8"/></linearGradient></defs>
-      </svg>
       <span class="brand-text"><b>Spudy</b><span>INTELLIGENCE TECHNOLOGY</span></span>
     </a>
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#services">Services</a>
-      <a href="#products">Products</a>
       <a href="#portfolio">Portfolio</a>
-      <a href="#pricing">Pricing</a>
       <a href="#contact">Contact</a>
     </div>
     <div class="nav-right">
@@ -349,9 +333,7 @@
   <div id="mobileNav" style="display:none;flex-direction:column;padding:10px 28px 22px;border-top:1px solid var(--border);gap:4px;">
     <a href="#about" style="padding:10px 0;color:var(--muted)">About</a>
     <a href="#services" style="padding:10px 0;color:var(--muted)">Services</a>
-    <a href="#products" style="padding:10px 0;color:var(--muted)">Products</a>
     <a href="#portfolio" style="padding:10px 0;color:var(--muted)">Portfolio</a>
-    <a href="#pricing" style="padding:10px 0;color:var(--muted)">Pricing</a>
     <a href="#contact" style="padding:10px 0;color:var(--muted)">Contact</a>
   </div>
 </header>
@@ -424,74 +406,104 @@
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-kicker">Services</div>
-      <h2>What we do, in four parts.</h2>
-      <p>Click a service to see exactly what's included.</p>
+      <h2>What we do.</h2>
+      <p>Click a service to see what's included and estimate costs.</p>
     </div>
-    <div class="accordion" id="accordion">
+    <div class="services-grid" id="services-grid">
 
-      <div class="acc-item open">
-        <button class="acc-head" onclick="toggleAcc(this)">
+      <div class="service-card open">
+        <button class="service-head" onclick="toggleCard(this)">
           <div class="left">
             <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg></div>
-            <div><span class="letter">A</span><h3>Sales &amp; Marketing</h3></div>
+            <h3>Sales &amp; Marketing</h3>
           </div>
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <div class="acc-body"><div class="acc-body-in">
+        <div class="service-body"><div class="service-body-in">
           <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Brand Strategy</div>
           <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Social Media Marketing</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Sales Consulting</div>
           <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Lead Generation</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Customer Growth</div>
+
+          <div class="calc-wrap">
+            <h4>Estimate Campaign Cost</h4>
+            <div class="calc-row">
+              <label for="marketing-duration">Duration (Months):</label>
+              <input type="number" id="marketing-duration" min="1" value="1" oninput="calcPrice('marketing')">
+            </div>
+            <div class="calc-result" id="marketing-price">$250 <span>/ campaign</span></div>
+          </div>
         </div></div>
       </div>
 
-      <div class="acc-item">
-        <button class="acc-head" onclick="toggleAcc(this)">
+      <div class="service-card">
+        <button class="service-head" onclick="toggleCard(this)">
           <div class="left">
             <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9s1.3-6.3 3.8-9z"/></svg></div>
-            <div><span class="letter">B</span><h3>Website Development</h3></div>
+            <h3>Website Development</h3>
           </div>
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <div class="acc-body"><div class="acc-body-in">
+        <div class="service-body"><div class="service-body-in">
           <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Business Websites</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Portfolio Websites</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Landing Pages</div>
           <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>E-commerce</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>GitHub-hosted websites</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Landing Pages</div>
+
+          <div class="calc-wrap">
+            <h4>Estimate Website Cost</h4>
+            <div class="calc-row">
+              <label for="web-pages">Number of Pages:</label>
+              <input type="number" id="web-pages" min="1" value="5" oninput="calcPrice('web')">
+            </div>
+            <div class="calc-result" id="web-price">$150 <span>estimated base</span></div>
+          </div>
         </div></div>
       </div>
 
-      <div class="acc-item">
-        <button class="acc-head" onclick="toggleAcc(this)">
+      <div class="service-card">
+        <button class="service-head" onclick="toggleCard(this)">
           <div class="left">
             <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
-            <div><span class="letter">C</span><h3>App Development</h3></div>
+            <h3>App Development</h3>
           </div>
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <div class="acc-body"><div class="acc-body-in">
+        <div class="service-body"><div class="service-body-in">
           <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Android Apps</div>
           <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Web Apps</div>
           <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Business Systems</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Custom Solutions</div>
+
+          <div class="calc-wrap">
+            <h4>Estimate App Cost</h4>
+            <div class="calc-row">
+              <label for="app-screens">Number of Screens/Views:</label>
+              <input type="number" id="app-screens" min="1" value="4" oninput="calcPrice('app')">
+            </div>
+            <div class="calc-result" id="app-price">$400 <span>estimated base</span></div>
+          </div>
         </div></div>
       </div>
 
-      <div class="acc-item">
-        <button class="acc-head" onclick="toggleAcc(this)">
+      <div class="service-card">
+        <button class="service-head" onclick="toggleCard(this)">
           <div class="left">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
-            <div><span class="letter">D</span><h3>Digital Scaling</h3></div>
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v7H6z"/></svg></div>
+            <h3>Printing &amp; Branding</h3>
           </div>
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <div class="acc-body"><div class="acc-body-in">
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Business Automation</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>SEO</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Digital Transformation</div>
-          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Online Growth Strategies</div>
+        <div class="service-body"><div class="service-body-in">
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Business Cards, Flyers, Posters</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Company Profiles &amp; Logos</div>
+          <div class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Banners &amp; Stickers</div>
+
+          <div class="calc-wrap">
+            <h4>Estimate Printing Cost</h4>
+            <div class="calc-row">
+              <label for="print-pages">Number of Pages/Copies:</label>
+              <input type="number" id="print-pages" min="1" value="20" oninput="calcPrice('print')">
+            </div>
+            <div class="calc-result" id="print-price">$10.00 <span>total estimate</span></div>
+          </div>
         </div></div>
       </div>
 
@@ -501,47 +513,6 @@
 
 <hr class="divider">
 
-<!-- ================= PRODUCTS ================= -->
-<section class="section-pad" id="products">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">Products</div>
-      <h2>Printing &amp; branding materials.</h2>
-      <p>For when your business needs to show up off-screen too.</p>
-    </div>
-    <div class="prod-grid">
-      <div class="prod-col">
-        <h3>Printing</h3>
-        <span class="sub">Physical materials, printed to order</span>
-        <div class="prod-list">
-          <div class="row">Business Cards</div>
-          <div class="row">Flyers</div>
-          <div class="row">Posters</div>
-          <div class="row">Certificates</div>
-          <div class="row">Stickers</div>
-          <div class="row">Banners</div>
-        </div>
-      </div>
-      <div class="prod-col">
-        <h3>Branding</h3>
-        <span class="sub">Documents that carry your identity</span>
-        <div class="prod-list">
-          <div class="row">Company Profiles</div>
-          <div class="row">Letterheads</div>
-          <div class="row">Invoice Books</div>
-          <div class="row">Receipt Books</div>
-          <div class="row">Logos</div>
-        </div>
-      </div>
-    </div>
-    <div class="prod-cta">
-      <div><h4>Need something custom?</h4><p>Send us your specs and quantity, and we'll put together a printing quote.</p></div>
-      <a href="#contact" class="btn btn-primary btn-sm">Request custom printing</a>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
 
 <!-- ================= PORTFOLIO ================= -->
 <section class="section-pad" id="portfolio">
@@ -601,79 +572,6 @@
 
 <hr class="divider">
 
-<!-- ================= PRICING ================= -->
-<section class="section-pad" id="pricing">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">Pricing</div>
-      <h2>Packages for every stage.</h2>
-      <p>Public overview below — sign in for full pricing and to request a custom quote.</p>
-    </div>
-    <div class="price-grid">
-      <div class="price-card">
-        <h3>Starter</h3>
-        <p class="best">Best for small businesses</p>
-      </div>
-      <div class="price-card mid">
-        <span class="flag">Most popular</span>
-        <h3>Business</h3>
-        <p class="best">Best for growing companies</p>
-      </div>
-      <div class="price-card">
-        <h3>Premium</h3>
-        <p class="best">Best for custom solutions</p>
-      </div>
-    </div>
-    <p class="pricing-public-note">App packages: Basic · Advanced · Enterprise. Printing pricing available on request.</p>
-
-    <div class="gate-wrap unlocked" id="gate-pricing" style="margin-top:34px;">
-      <div class="gate-hidden">
-        <div class="price-grid">
-          <div class="price-card">
-            <h3>Starter</h3>
-            <p class="best">Best for small businesses</p>
-            <div class="amt">$150 <span>one-time</span></div>
-            <ul>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Up to 5 pages</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Mobile responsive</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Contact form</li>
-            </ul>
-          </div>
-          <div class="price-card mid">
-            <span class="flag">Most popular</span>
-            <h3>Business</h3>
-            <p class="best">Best for growing companies</p>
-            <div class="amt">$350 <span>one-time</span></div>
-            <ul>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Up to 12 pages</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Basic SEO setup</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Analytics &amp; forms</li>
-            </ul>
-          </div>
-          <div class="price-card">
-            <h3>Premium</h3>
-            <p class="best">Best for custom solutions</p>
-            <div class="amt">Custom</div>
-            <ul>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Unlimited pages</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>E-commerce / app integration</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Ongoing support plan</li>
-            </ul>
-          </div>
-        </div>
-        <p style="color:var(--muted-2);font-size:12px;margin-top:14px;">Example pricing shown — final figures confirmed on quote.</p>
-      </div>
-      <div class="gate-overlay">
-        <svg class="lockicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-        <h4>Sign in to see full pricing</h4>
-        <p>Create a free account to view detailed package pricing.</p>
-        <button class="btn btn-primary btn-sm" onclick="openAuth('signup')">Create free account</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
 
 <!-- ================= CONTACT ================= -->
 <section class="section-pad" id="contact">
@@ -782,12 +680,6 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <div class="brand">
-          <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
-            <rect x="1" y="1" width="38" height="38" rx="9" stroke="url(#g2)" stroke-width="1.6"/>
-            <circle cx="13" cy="20" r="3" fill="#00D8E8"/><circle cx="27" cy="12" r="3" fill="#3B6BFF"/><circle cx="27" cy="28" r="3" fill="#3B6BFF"/>
-            <path d="M13 20L27 12M13 20L27 28" stroke="#5E6892" stroke-width="1.3"/>
-            <defs><linearGradient id="g2" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#3B6BFF"/><stop offset="1" stop-color="#00D8E8"/></linearGradient></defs>
-          </svg>
           <span class="brand-text"><b>Spudy Intelligence Technology</b></span>
         </div>
         <p>Smart Technology. Real Business Growth. Websites, apps, marketing and print — built and supported from Zimbabwe.</p>
@@ -797,7 +689,6 @@
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#portfolio">Portfolio</a>
-        <a href="#pricing">Pricing</a>
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
@@ -821,7 +712,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
     <h3 id="authTitle">Sign in</h3>
-    <p class="sub" id="authSub">Access full pricing, case studies and your quote history.</p>
+    <p class="sub" id="authSub">Access full case studies and your quote history.</p>
     <div class="form-msg" id="authMsg"></div>
     <form id="authForm">
       <div><label>Email</label><input type="email" required id="auth-email"></div>
@@ -874,12 +765,41 @@ document.querySelectorAll('#mobileNav a').forEach(a=>a.addEventListener('click',
   document.getElementById('mobileNav').style.display='none';
 }));
 
-/* ============ ACCORDION ============ */
-function toggleAcc(btn){
-  const item = btn.parentElement;
-  const wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.acc-item').forEach(i=>i.classList.remove('open'));
-  if(!wasOpen) item.classList.add('open');
+/* ============ SERVICES CARDS & CALCULATORS ============ */
+function toggleCard(btn){
+  const card = btn.parentElement;
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.service-card').forEach(c=>c.classList.remove('open'));
+  if(!wasOpen) card.classList.add('open');
+}
+
+function calcPrice(type) {
+  if (type === 'marketing') {
+    const months = parseInt(document.getElementById('marketing-duration').value) || 0;
+    const price = months * 250;
+    document.getElementById('marketing-price').innerHTML = '$' + price + ' <span>/ campaign</span>';
+  } else if (type === 'web') {
+    const pages = parseInt(document.getElementById('web-pages').value) || 0;
+    // Base 5 pages = $150. Additional pages = $30 each.
+    let price = 150;
+    if (pages > 5) {
+      price += (pages - 5) * 30;
+    }
+    document.getElementById('web-price').innerHTML = '$' + price + ' <span>estimated base</span>';
+  } else if (type === 'app') {
+    const screens = parseInt(document.getElementById('app-screens').value) || 0;
+    // Base 4 screens = $400. Additional screens = $50 each.
+    let price = 400;
+    if (screens > 4) {
+      price += (screens - 4) * 50;
+    }
+    document.getElementById('app-price').innerHTML = '$' + price + ' <span>estimated base</span>';
+  } else if (type === 'print') {
+    const pages = parseInt(document.getElementById('print-pages').value) || 0;
+    // $0.50 per page
+    const price = (pages * 0.50).toFixed(2);
+    document.getElementById('print-price').innerHTML = '$' + price + ' <span>total estimate</span>';
+  }
 }
 
 /* ============ CONTACT TABS ============ */
@@ -907,12 +827,12 @@ function setAuthMode(mode){
   const switchWrap = document.getElementById('authSwitchWrap');
   if(mode === 'signup'){
     title.textContent = 'Create your account';
-    sub.textContent = 'Free — unlocks full pricing, case studies and quote tracking.';
+    sub.textContent = 'Free — unlocks full case studies and quote tracking.';
     btn.textContent = 'Create account';
     switchWrap.innerHTML = 'Already have an account? <button onclick="setAuthMode(\'signin\')">Sign in</button>';
   } else {
     title.textContent = 'Sign in';
-    sub.textContent = 'Access full pricing, case studies and your quote history.';
+    sub.textContent = 'Access full case studies and your quote history.';
     btn.textContent = 'Sign in';
     switchWrap.innerHTML = 'Don\'t have an account? <button onclick="setAuthMode(\'signup\')">Create one</button>';
   }
@@ -1108,7 +1028,7 @@ document.querySelectorAll('.modal-back').forEach(m=>{
     for(const n of nodes){
       ctx.beginPath();
       ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-      ctx.fillStyle = '#00D8E8';
+      ctx.fillStyle = '#0284C7';
       ctx.globalAlpha = 0.85;
       ctx.fill();
       ctx.globalAlpha = 1;
