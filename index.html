@@ -528,6 +528,7 @@
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-primary">Get a free quote</a>
         <a href="#portfolio" class="btn btn-ghost">See our work</a>
+        <button id="pay-btn" class="btn btn-primary" onclick="initiatePayment()">Pay $10.00 with Pesepay</button>
       </div>
       <div class="hero-trust">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 6 7 1-5 5 1.5 7L12 18l-6.5 3L7 14 2 9l7-1z"/></svg>
@@ -1355,6 +1356,43 @@ document.querySelectorAll('.modal-back').forEach(m=>{
   m.addEventListener('click', (e)=>{ if(e.target === m) m.classList.remove('show'); });
 });
 
+async function initiatePayment() {
+  const button = document.getElementById("pay-btn");
+  button.disabled = true;
+  button.innerText = "Processing...";
+
+  try {
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/initiate-payment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`
+      },
+      body: JSON.stringify({
+        email: "buyer@example.com",
+        amount: 10.00,
+        currency: "USD"
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.redirectUrl) {
+      // Redirect user to Pesepay checkout
+      window.location.href = data.redirectUrl;
+    } else {
+      alert("Payment setup failed: " + (data.error || "Unknown error"));
+      button.disabled = false;
+      button.innerText = "Pay $10.00 with Pesepay";
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error connecting to payment server.");
+    button.disabled = false;
+    button.innerText = "Pay $10.00 with Pesepay";
+  }
+}
 </script>
 </body>
 </html>
