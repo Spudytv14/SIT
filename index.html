@@ -442,8 +442,16 @@
 <body>
 <!-- ================= LOADER ================= -->
 <div id="loader">
-  <div class="loader-brand"><b class="brand-gold">Spudy Tech</b></div>
+  <div class="loader-brand"><b class="brand-gold">SPUDY INTELLIGENCE TECHNOLOGY</b></div>
   <div style="font-size:12px; color:var(--muted); letter-spacing: 2px;">LOADING</div>
+</div>
+
+<!-- ================= WELCOME SCREEN ================= -->
+<div id="welcome-screen" style="position:fixed; inset:0; z-index:99; background:var(--navy); display:flex; flex-direction:column; align-items:center; justify-content:center; transform-origin:top right; transition:transform 0.8s ease, opacity 0.8s ease; will-change:transform, opacity;">
+  <h1 style="font-size:clamp(40px, 6vw, 80px); margin-bottom:20px; text-align:center;">Welcome to</h1>
+  <div class="loader-brand" style="font-size:clamp(30px, 5vw, 60px); text-align:center;"><b class="brand-gold">SPUDY INTELLIGENCE TECHNOLOGY</b></div>
+  <p style="margin-top:30px; color:var(--muted); font-size:18px;">Scroll down to continue</p>
+  <svg style="margin-top:20px; width:30px; height:30px; color:var(--cyan); animation: float 2s infinite ease-in-out;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
 </div>
 
 <!-- ================= 3D BACKGROUND ================= -->
@@ -460,7 +468,7 @@
 <header>
   <nav class="wrap">
     <a href="#home" class="brand">
-      <span class="brand-text"><b class="brand-gold">Spudy Tech</b></span>
+      <span class="brand-text"><b class="brand-gold">SPUDY INTELLIGENCE TECHNOLOGY</b></span>
     </a>
     <div class="nav-links">
       <a href="#about">About</a>
@@ -496,12 +504,12 @@
   <div class="wrap hero-grid">
     <div data-aos="fade-right" data-aos-duration="1000">
       <div class="eyebrow-line"><span class="bar"></span>Based in Zimbabwe · Working with clients everywhere</div>
-      <h1>Welcome to <span class="hl-gold typed-text"></span></h1>
+      <h1>Smart Technology. <span class="hl-gold">Real Business Growth.</span></h1>
       <p class="lead">Websites, apps, marketing systems and print — designed, built and supported by one team, so growth doesn't stall waiting on five different vendors.</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-primary">Get a free quote</a>
         <a href="#portfolio" class="btn btn-ghost">See our work</a>
-        <button id="pay-btn" class="btn btn-primary" onclick="initiatePayment()">Make Payment</button>
+        <button id="pay-btn" class="btn btn-primary" onclick="openPayment()">Make Payment</button>
       </div>
       <div class="hero-trust">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 6 7 1-5 5 1.5 7L12 18l-6.5 3L7 14 2 9l7-1z"/></svg>
@@ -835,7 +843,7 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <div class="brand">
-          <span class="brand-text"><b class="brand-gold">Spudy Tech</b></span>
+          <span class="brand-text"><b class="brand-gold">SPUDY INTELLIGENCE TECHNOLOGY</b></span>
         </div>
         <p>Smart Technology. Real Business Growth. Websites, apps, marketing and print — built and supported from Zimbabwe.</p>
       </div>
@@ -894,6 +902,42 @@
     <div class="auth-switch" id="authSwitchWrap">
       Don't have an account? <button onclick="setAuthMode('signup')">Create one</button>
     </div>
+  </div>
+</div>
+
+<!-- ================= PAYMENT MODAL ================= -->
+<div class="modal-back" id="paymentModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePayment()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3>Make a Payment</h3>
+    <p class="sub">Select the service, enter the amount and choose your payment method.</p>
+    <form id="paymentForm">
+      <div>
+        <label for="pay-service">Option to pay for</label>
+        <select id="pay-service" required>
+          <option value="Website Development">Website Development</option>
+          <option value="App Development">App Development</option>
+          <option value="Sales &amp; Marketing">Sales &amp; Marketing</option>
+          <option value="Digital Scaling">Digital Scaling</option>
+          <option value="Printing &amp; Branding">Printing &amp; Branding</option>
+        </select>
+      </div>
+      <div>
+        <label for="pay-amount">Amount (USD)</label>
+        <input type="number" required id="pay-amount" min="1" step="0.01">
+      </div>
+      <div>
+        <label for="pay-method">Payment Method</label>
+        <select id="pay-method" required>
+          <option value="Pesepay">Pesepay</option>
+          <option value="Ecocash">Ecocash</option>
+          <option value="Innbucks">Innbucks</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit" id="paySubmitBtn" style="margin-top:6px;">Proceed to Pay</button>
+    </form>
   </div>
 </div>
 
@@ -1011,6 +1055,22 @@ AOS.init({
     offset: 50,
 });
 
+/* ============ WELCOME SCREEN SCROLL ============ */
+window.addEventListener('scroll', () => {
+    const welcome = document.getElementById('welcome-screen');
+    if(welcome) {
+        if (window.scrollY > 50) {
+            welcome.style.transform = 'scale(0) translate(50%, -50%)';
+            welcome.style.opacity = '0';
+            welcome.style.pointerEvents = 'none';
+        } else {
+            welcome.style.transform = 'scale(1) translate(0, 0)';
+            welcome.style.opacity = '1';
+            welcome.style.pointerEvents = 'auto';
+        }
+    }
+});
+
 /* ============ PAGE TRANSITIONS & LOADER (GSAP) ============ */
 window.addEventListener('load', () => {
     gsap.to('#loader', {
@@ -1023,16 +1083,6 @@ window.addEventListener('load', () => {
     });
 
     gsap.from('header', { y: -100, opacity: 0, duration: 1, delay: 0.5, ease: 'power3.out' });
-});
-
-/* ============ TYPED.JS INIT ============ */
-new Typed('.typed-text', {
-    strings: ['Spudy Tech.', 'Innovation.', 'Growth.'],
-    typeSpeed: 60,
-    backSpeed: 40,
-    backDelay: 1500,
-    loop: true,
-    cursorChar: '|'
 });
 
 /* ============ SUPABASE SETUP ============ */
@@ -1295,8 +1345,23 @@ document.querySelectorAll('.modal-back').forEach(m=>{
   m.addEventListener('click', (e)=>{ if(e.target === m) m.classList.remove('show'); });
 });
 
-async function initiatePayment() {
-  const button = document.getElementById("pay-btn");
+/* ============ PAYMENT MODAL LOGIC ============ */
+function openPayment() {
+  document.getElementById('paymentModal').classList.add('show');
+}
+
+function closePayment() {
+  document.getElementById('paymentModal').classList.remove('show');
+}
+
+document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const amount = parseFloat(document.getElementById('pay-amount').value);
+  const service = document.getElementById('pay-service').value;
+  const method = document.getElementById('pay-method').value;
+  const button = document.getElementById("paySubmitBtn");
+
   button.disabled = true;
   button.innerText = "Processing...";
 
@@ -1309,29 +1374,31 @@ async function initiatePayment() {
         "authorization": `Bearer ${SUPABASE_KEY.trim()}`
       },
       body: JSON.stringify({
-        email: "buyer@example.com",
-        amount: 10.00,
-        currency: "USD"
+        email: currentUser ? currentUser.email : "buyer@example.com",
+        amount: amount,
+        currency: "USD",
+        service: service,
+        method: method
       })
     });
 
     const data = await response.json();
 
     if (data.redirectUrl) {
-      // Redirect user to Pesepay checkout
+      // Redirect user to checkout
       window.location.href = data.redirectUrl;
     } else {
       alert("Payment setup failed: " + (data.error || "Unknown error"));
       button.disabled = false;
-      button.innerText = "Make Payment";
+      button.innerText = "Proceed to Pay";
     }
   } catch (err) {
     console.error(err);
     alert("Error connecting to payment server.");
     button.disabled = false;
-    button.innerText = "Make Payment";
+    button.innerText = "Proceed to Pay";
   }
-}
+});
 </script>
 </body>
 </html>
