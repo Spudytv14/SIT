@@ -1009,27 +1009,31 @@
       </div>
       <div>
         <label style="margin-bottom:10px;display:block;">Payment Method</label>
-        <div class="payment-methods">
+                <div class="payment-methods">
           <label class="pm-tile">
-            <input type="radio" name="pay-method" value="Ecocash" checked>
+            <input type="radio" name="pay-method" value="PZW211" checked>
             <div class="pm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
             <span class="pm-label">EcoCash</span>
           </label>
           <label class="pm-tile">
-            <input type="radio" name="pay-method" value="OneMoney">
-            <div class="pm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-            <span class="pm-label">OneMoney</span>
-          </label>
-          <label class="pm-tile">
-            <input type="radio" name="pay-method" value="Innbucks">
+            <input type="radio" name="pay-method" value="PZW212">
             <div class="pm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
             <span class="pm-label">InnBucks</span>
           </label>
           <label class="pm-tile">
-            <input type="radio" name="pay-method" value="Visa">
+            <input type="radio" name="pay-method" value="Card">
             <div class="pm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
             <span class="pm-label">Visa / Mastercard</span>
           </label>
+        </div>
+      </div>
+      <div id="dynamic-inputs" style="margin-bottom: 20px;">
+        <div id="phone-input-container">
+          <label for="pay-phone" style="margin-bottom:10px;display:block;">Mobile Money Phone Number</label>
+          <input type="tel" id="pay-phone" required placeholder="e.g. 077... / 078...">
+        </div>
+        <div id="note-3ds-container" style="display: none; color: var(--muted); font-size: 13.5px; text-align: center; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-s); background: var(--panel);">
+          You will be securely routed for 3D Secure bank authorization.
         </div>
       </div>
       <button class="btn btn-primary btn-checkout" type="submit" id="paySubmitBtn">
@@ -1445,9 +1449,39 @@ function openPaymentSelect(service) {
   }
 }
 
+let activePollInterval = null;
+
 function closePayment() {
   document.getElementById('paymentModal').classList.remove('show');
+  if (activePollInterval) {
+    clearInterval(activePollInterval);
+    activePollInterval = null;
+  }
+  const button = document.getElementById("paySubmitBtn");
+  button.disabled = false;
+  button.classList.remove("loading");
+  const secureText = document.querySelector('.secure-text');
+  secureText.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secured & Encrypted Checkout`;
 }
+
+document.querySelectorAll('input[name="pay-method"]').forEach(radio => {
+  radio.addEventListener('change', (e) => {
+    const method = e.target.value;
+    const phoneContainer = document.getElementById('phone-input-container');
+    const phoneInput = document.getElementById('pay-phone');
+    const noteContainer = document.getElementById('note-3ds-container');
+
+    if (method === 'PZW211' || method === 'PZW212') {
+      phoneContainer.style.display = 'block';
+      phoneInput.required = true;
+      noteContainer.style.display = 'none';
+    } else if (method === 'Card') {
+      phoneContainer.style.display = 'none';
+      phoneInput.required = false;
+      noteContainer.style.display = 'block';
+    }
+  });
+});
 
 document.getElementById('paymentForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -1456,12 +1490,31 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
   const service = document.getElementById('pay-service').value;
   const methodInput = document.querySelector('input[name="pay-method"]:checked');
   const method = methodInput ? methodInput.value : "Unknown";
+  const phone = document.getElementById('pay-phone').value;
   const button = document.getElementById("paySubmitBtn");
+  const secureText = document.querySelector('.secure-text');
 
   button.disabled = true;
   button.classList.add("loading");
 
+  const originalSecureText = secureText.innerHTML;
+  if (method === 'PZW211' || method === 'PZW212') {
+    secureText.innerHTML = "Please check your phone and approve the USSD prompt...";
+  }
+
   try {
+    const payload = {
+      email: currentUser ? currentUser.email : "buyer@example.com",
+      amount: amount,
+      currency: "USD",
+      service: service,
+      method: method
+    };
+
+    if (method === 'PZW211' || method === 'PZW212') {
+      payload.phone = phone;
+    }
+
     const response = await fetch(`${SUPABASE_URL}/functions/v1/initiate-payment`, {
       method: "POST",
       headers: {
@@ -1469,30 +1522,81 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
         "apikey": SUPABASE_KEY.trim(),
         "authorization": `Bearer ${SUPABASE_KEY.trim()}`
       },
-      body: JSON.stringify({
-        email: currentUser ? currentUser.email : "buyer@example.com",
-        amount: amount,
-        currency: "USD",
-        service: service,
-        method: method
-      })
+      body: JSON.stringify(payload)
     });
 
     const data = await response.json();
 
-    if (data.redirectUrl) {
-      // Redirect user to checkout
-      window.location.href = data.redirectUrl;
+    if (method === 'PZW211' || method === 'PZW212') {
+      const reference = data.reference || data.pollUrl || data.id;
+      if (!reference && !data.success) {
+         alert("Payment setup failed: " + (data.error || "Unknown error"));
+         button.disabled = false;
+         button.classList.remove("loading");
+         secureText.innerHTML = originalSecureText;
+         return;
+      }
+
+      let pollAttempts = 0;
+      activePollInterval = setInterval(async () => {
+         pollAttempts++;
+         if (pollAttempts > 40) { // Timeout after 2 mins
+             clearInterval(activePollInterval);
+             activePollInterval = null;
+             alert("Payment request timed out. Please try again.");
+             button.disabled = false;
+             button.classList.remove("loading");
+             secureText.innerHTML = originalSecureText;
+             return;
+         }
+         try {
+           const pollResponse = await fetch(`${SUPABASE_URL}/functions/v1/check-payment?reference=${reference}`, {
+              headers: {
+                "apikey": SUPABASE_KEY.trim(),
+                "authorization": `Bearer ${SUPABASE_KEY.trim()}`
+              }
+           });
+           const pollData = await pollResponse.json();
+           if (pollData.status === 'PAID' || pollData.status === 'SUCCESS' || pollData.success) {
+              clearInterval(activePollInterval); activePollInterval = null;
+              showToast("Payment confirmed! Thank you.", false);
+              button.disabled = false;
+              button.classList.remove("loading");
+              secureText.innerHTML = originalSecureText;
+              closePayment();
+              document.getElementById('paymentForm').reset();
+              // Reset dynamically visible fields just in case
+              document.getElementById('phone-input-container').style.display = 'block';
+              document.getElementById('note-3ds-container').style.display = 'none';
+           } else if (pollData.status === 'FAILED' || pollData.status === 'CANCELLED') {
+              clearInterval(activePollInterval); activePollInterval = null;
+              alert("Payment failed or was cancelled.");
+              button.disabled = false;
+              button.classList.remove("loading");
+              secureText.innerHTML = originalSecureText;
+           }
+         } catch (e) {
+           console.error("Polling error:", e);
+         }
+      }, 3000);
+
     } else {
-      alert("Payment setup failed: " + (data.error || "Unknown error"));
-      button.disabled = false;
-      button.classList.remove("loading");
+      if (data.redirectUrl) {
+        // Redirect user to checkout
+        window.location.href = data.redirectUrl;
+      } else {
+        alert("Payment setup failed: " + (data.error || "Unknown error"));
+        button.disabled = false;
+        button.classList.remove("loading");
+        secureText.innerHTML = originalSecureText;
+      }
     }
   } catch (err) {
     console.error(err);
     alert("Error connecting to payment server.");
     button.disabled = false;
     button.classList.remove("loading");
+    secureText.innerHTML = originalSecureText;
   }
 });
 </script>
