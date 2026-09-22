@@ -16,17 +16,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
   :root{
-    --navy:#FFFFFF;
-    --navy-2:#F0F4F8;
-    --panel:#F9FAFB;
-    --panel-2:#FFFFFF;
-    --border:rgba(0,0,0,0.1);
-    --blue:#1D4ED8;
-    --blue-2:#2563EB;
-    --cyan:#0284C7;
-    --white:#111827;
-    --muted:#4B5563;
-    --muted-2:#6B7280;
+    --navy:#000000;
+    --navy-2:#111111;
+    --panel:#1a1a1a;
+    --panel-2:#222222;
+    --border:rgba(255,255,255,0.1);
+    --blue:#00FF00;
+    --blue-2:#00CC00;
+    --cyan:#00FF00;
+    --white:#FFFFFF;
+    --muted:#A0A0A0;
+    --muted-2:#808080;
     --danger:#EF4444;
     --success:#10B981;
     --radius-s:6px;
@@ -63,7 +63,7 @@
   /* ---------- NAV ---------- */
   header{
     position:sticky;top:0;z-index:80;
-    background:rgba(255,255,255,0.7);
+    background:rgba(0,0,0,0.7);
     backdrop-filter:blur(15px);
     border-bottom:1px solid var(--border);
     transition: background 0.3s ease;
@@ -295,7 +295,7 @@
   .gate-overlay{
     position:absolute;inset:0;z-index:20;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-    background:linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.95) 55%);
+    background:linear-gradient(180deg,rgba(0,0,0,0.5),rgba(0,0,0,0.95) 55%);
     backdrop-filter:blur(3px);
     border-radius:var(--radius-m);
     text-align:center;padding:20px;
@@ -361,35 +361,10 @@
   .foot-bottom{margin-top:50px;padding-top:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--muted-2);font-size:12.5px;flex-wrap:wrap;gap:10px;}
 
   /* ---------- MODAL ---------- */
-  .modal-back{position:fixed;inset:0;background:rgba(255,255,255,0.8);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
   .modal-back.show{display:flex;}
-  .modal{width:100%;max-width:400px;background:rgba(255,255,255,0.9);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.4);border-radius:var(--radius-m);padding:30px;position:relative;}
+  .modal{width:100%;max-width:400px;background:rgba(0,0,0,0.9);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-m);padding:30px;position:relative;}
 
-  /* custom cursor */
-  .cursor-dot {
-    width: 8px;
-    height: 8px;
-    background-color: var(--cyan);
-    position: fixed;
-    top: 0; left: 0;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, background-color 0.2s;
-  }
-  .cursor-outline {
-    width: 30px;
-    height: 30px;
-    border: 2px solid var(--cyan);
-    position: fixed;
-    top: 0; left: 0;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s;
-  }
 
   /* floating button */
   .floating-btn {
@@ -474,8 +449,6 @@
 <!-- ================= 3D BACKGROUND ================= -->
 <canvas id="bg-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none;"></canvas>
 
-<div class="cursor-dot"></div>
-<div class="cursor-outline"></div>
 
 <!-- ================= FLOATING BUTTON ================= -->
 <a href="#contact" class="btn btn-primary floating-btn" id="floatingQuoteBtn">
@@ -510,7 +483,7 @@
       </button>
     </div>
   </nav>
-  <div id="mobileNav" style="position:fixed; top:72px; right:-100%; width:250px; height:calc(100vh - 72px); background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); display:flex; flex-direction:column; padding:20px 28px; border-left:1px solid var(--border); gap:10px; transition: right 0.4s ease-in-out; z-index:79;">
+  <div id="mobileNav" style="position:fixed; top:72px; right:-100%; width:250px; height:calc(100vh - 72px); background:rgba(0,0,0,0.95); backdrop-filter:blur(10px); display:flex; flex-direction:column; padding:20px 28px; border-left:1px solid var(--border); gap:10px; transition: right 0.4s ease-in-out; z-index:79;">
     <a href="#about" style="padding:12px 0;color:var(--muted);font-size:16px;border-bottom:1px solid var(--border);">About</a>
     <a href="#services" style="padding:12px 0;color:var(--muted);font-size:16px;border-bottom:1px solid var(--border);">Services</a>
     <a href="#portfolio" style="padding:12px 0;color:var(--muted);font-size:16px;border-bottom:1px solid var(--border);">Portfolio</a>
@@ -528,7 +501,7 @@
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-primary">Get a free quote</a>
         <a href="#portfolio" class="btn btn-ghost">See our work</a>
-        <button id="pay-btn" class="btn btn-primary" onclick="initiatePayment()">Pay $10.00 with Pesepay</button>
+        <button id="pay-btn" class="btn btn-primary" onclick="initiatePayment()">Make Payment</button>
       </div>
       <div class="hero-trust">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 6 7 1-5 5 1.5 7L12 18l-6.5 3L7 14 2 9l7-1z"/></svg>
@@ -1011,44 +984,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-/* ============ CUSTOM CURSOR & MAGNETIC BUTTONS ============ */
-const cursorDot = document.querySelector('.cursor-dot');
-const cursorOutline = document.querySelector('.cursor-outline');
-
-window.addEventListener('mousemove', (e) => {
-    const posX = e.clientX;
-    const posY = e.clientY;
-
-    cursorDot.style.left = `${posX}px`;
-    cursorDot.style.top = `${posY}px`;
-
-    // Smooth trailing effect for outline
-    cursorOutline.animate({
-        left: `${posX}px`,
-        top: `${posY}px`
-    }, { duration: 150, fill: "forwards" });
-});
-
-// Cursor expansion on interactive elements
-const interactives = document.querySelectorAll('a, button, input, textarea, select, .service-head');
-interactives.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        cursorOutline.style.width = '50px';
-        cursorOutline.style.height = '50px';
-        cursorOutline.style.backgroundColor = 'rgba(2, 132, 199, 0.1)';
-    });
-    el.addEventListener('mouseleave', () => {
-        cursorOutline.style.width = '30px';
-        cursorOutline.style.height = '30px';
-        cursorOutline.style.backgroundColor = 'transparent';
-
-        // Reset magnetic button position
-        if(el.classList.contains('btn')) {
-             gsap.to(el, { x: 0, y: 0, duration: 0.3, ease: 'power2.out' });
-        }
-    });
-});
-
+/* ============ MAGNETIC BUTTONS ============ */
 // Magnetic Buttons
 const magneticBtns = document.querySelectorAll('.btn');
 magneticBtns.forEach(btn => {
@@ -1063,6 +999,9 @@ magneticBtns.forEach(btn => {
             duration: 0.3,
             ease: 'power2.out'
         });
+    });
+    btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.3, ease: 'power2.out' });
     });
 });
 
@@ -1366,8 +1305,8 @@ async function initiatePayment() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`
+        "apikey": SUPABASE_KEY.trim(),
+        "authorization": `Bearer ${SUPABASE_KEY.trim()}`
       },
       body: JSON.stringify({
         email: "buyer@example.com",
@@ -1384,13 +1323,13 @@ async function initiatePayment() {
     } else {
       alert("Payment setup failed: " + (data.error || "Unknown error"));
       button.disabled = false;
-      button.innerText = "Pay $10.00 with Pesepay";
+      button.innerText = "Make Payment";
     }
   } catch (err) {
     console.error(err);
     alert("Error connecting to payment server.");
     button.disabled = false;
-    button.innerText = "Pay $10.00 with Pesepay";
+    button.innerText = "Make Payment";
   }
 }
 </script>
