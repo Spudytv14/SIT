@@ -764,10 +764,10 @@
       <div class="form-panel active" id="panel-quick">
         <form id="quickForm">
           <div class="frow">
-            <div><label>Name</label><input type="text" required id="q-name"></div>
-            <div><label>Email</label><input type="email" required id="q-email"></div>
+            <div><label for="q-name">Name</label><input type="text" required id="q-name"></div>
+            <div><label for="q-email">Email</label><input type="email" required id="q-email"></div>
           </div>
-          <div><label>Message</label><textarea required id="q-message" placeholder="Tell us a little about what you need..."></textarea></div>
+          <div><label for="q-message">Message</label><textarea required id="q-message" placeholder="Tell us a little about what you need..."></textarea></div>
           <button class="btn btn-primary" type="submit" style="align-self:flex-start;">Send message</button>
           <p style="font-size:12.5px;color:var(--muted-2);">Opens your email app — no account needed.</p>
         </form>
@@ -778,16 +778,16 @@
           <div class="gate-hidden">
             <form id="quoteForm">
               <div class="frow">
-                <div><label>Name</label><input type="text" required id="qq-name"></div>
-                <div><label>Email</label><input type="email" required id="qq-email"></div>
+                <div><label for="qq-name">Name</label><input type="text" required id="qq-name"></div>
+                <div><label for="qq-email">Email</label><input type="email" required id="qq-email"></div>
               </div>
               <div class="frow">
-                <div><label>Phone</label><input type="text" id="qq-phone"></div>
-                <div><label>Company</label><input type="text" id="qq-company"></div>
+                <div><label for="qq-phone">Phone</label><input type="text" id="qq-phone"></div>
+                <div><label for="qq-company">Company</label><input type="text" id="qq-company"></div>
               </div>
               <div class="frow">
                 <div>
-                  <label>Service required</label>
+                  <label for="qq-service">Service required</label>
                   <select id="qq-service">
                     <option>Website Development</option>
                     <option>App Development</option>
@@ -797,7 +797,7 @@
                   </select>
                 </div>
                 <div>
-                  <label>Budget</label>
+                  <label for="qq-budget">Budget</label>
                   <select id="qq-budget">
                     <option>Under $150</option>
                     <option>$150 - $350</option>
@@ -806,7 +806,7 @@
                   </select>
                 </div>
               </div>
-              <div><label>Message</label><textarea id="qq-message" placeholder="Project details, timeline, anything else we should know..."></textarea></div>
+              <div><label for="qq-message">Message</label><textarea id="qq-message" placeholder="Project details, timeline, anything else we should know..."></textarea></div>
               <div class="form-msg" id="quoteMsg"></div>
               <button class="btn btn-primary" type="submit" style="align-self:flex-start;">Send quote request</button>
             </form>
@@ -863,7 +863,7 @@
 <!-- ================= SETTINGS MODAL ================= -->
 <div class="modal-back" id="settingsModal">
   <div class="modal">
-    <button class="modal-close" onclick="closeSettings()">
+    <button class="modal-close" onclick="closeSettings()" aria-label="Close">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
     <h3>Settings</h3>
@@ -880,15 +880,15 @@
 <!-- ================= AUTH MODAL ================= -->
 <div class="modal-back" id="authModal">
   <div class="modal">
-    <button class="modal-close" onclick="closeAuth()">
+    <button class="modal-close" onclick="closeAuth()" aria-label="Close">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
     <h3 id="authTitle">Sign in</h3>
     <p class="sub" id="authSub">Access full case studies and your quote history.</p>
     <div class="form-msg" id="authMsg"></div>
     <form id="authForm">
-      <div><label>Email</label><input type="email" required id="auth-email"></div>
-      <div><label>Password</label><input type="password" required id="auth-password" minlength="6"></div>
+      <div><label for="auth-email">Email</label><input type="email" required id="auth-email"></div>
+      <div><label for="auth-password">Password</label><input type="password" required id="auth-password" minlength="6"></div>
       <button class="btn btn-primary" type="submit" id="authSubmitBtn" style="margin-top:6px;">Sign in</button>
     </form>
     <div class="auth-switch" id="authSwitchWrap">
@@ -900,7 +900,7 @@
 <!-- ================= INFO MODAL ================= -->
 <div class="modal-back" id="infoModal">
   <div class="modal info-modal">
-    <button class="modal-close" onclick="closeInfo()">
+    <button class="modal-close" onclick="closeInfo()" aria-label="Close">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
     <h3 id="infoTitle">Privacy Policy</h3>
