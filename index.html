@@ -194,7 +194,7 @@
   .value-row .vdesc{color:var(--muted);font-size:14.5px;}
 
   /* ---------- SERVICES CARDS ---------- */
-  .services-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;margin-top:20px;}
+  .services-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:16px;margin-top:20px;}
   .service-card{
     border:1px solid var(--cyan);
     border-radius:var(--radius-m);
@@ -525,7 +525,7 @@
       <div class="founder-avatar">MM</div>
       <h3>Matipaishe Muduchwa</h3>
       <span class="role">Founder, Spudy Intelligence Technology</span>
-      <p class="bio">Matipaishe started Spudy Intelligence Technology to give Zimbabwean businesses the same technology advantages larger companies take for granted — a website that converts visitors, an app that actually works, and marketing decisions backed by data instead of guesswork.</p>
+      <p class="bio">Technologist, builder, and digital strategist. Passionate about solving real-world friction using smart software, clean design, and data that actually tells a story. When I’m not building or experimenting with new tools, I’m exploring modern tech trends and figuring out how to turn complex problems into simple, functional digital experiences.</p>
     </div>
     <div class="about-copy" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
       <h2 style="font-size:28px;margin-bottom:16px;">Technology and marketing, under one roof.</h2>
@@ -577,7 +577,8 @@
               <label for="marketing-duration">Duration (Months):</label>
               <input type="number" id="marketing-duration" min="1" value="1" oninput="calcPrice('marketing')">
             </div>
-            <div class="calc-result" id="marketing-price">$250 <span>/ campaign</span></div>
+            <div class="calc-result" id="marketing-price">$15 <span>/ campaign</span></div>
+            <button class="btn" style="width:100%;margin-top:12px;" onclick="openPaymentSelect('Sales & Marketing')">Interested</button>
           </div>
         </div></div>
       </div>
@@ -602,6 +603,7 @@
               <input type="number" id="web-pages" min="1" value="5" oninput="calcPrice('web')">
             </div>
             <div class="calc-result" id="web-price">$150 <span>estimated base</span></div>
+            <button class="btn" style="width:100%;margin-top:12px;" onclick="openPaymentSelect('Website Development')">Interested</button>
           </div>
         </div></div>
       </div>
@@ -626,6 +628,7 @@
               <input type="number" id="app-screens" min="1" value="4" oninput="calcPrice('app')">
             </div>
             <div class="calc-result" id="app-price">$400 <span>estimated base</span></div>
+            <button class="btn" style="width:100%;margin-top:12px;" onclick="openPaymentSelect('App Development')">Interested</button>
           </div>
         </div></div>
       </div>
@@ -649,7 +652,8 @@
               <label for="print-pages">Number of Pages/Copies:</label>
               <input type="number" id="print-pages" min="1" value="20" oninput="calcPrice('print')">
             </div>
-            <div class="calc-result" id="print-price">$10.00 <span>total estimate</span></div>
+            <div class="calc-result" id="print-price">$1.00 <span>total estimate</span></div>
+            <button class="btn" style="width:100%;margin-top:12px;" onclick="openPaymentSelect('Printing & Branding')">Interested</button>
           </div>
         </div></div>
       </div>
@@ -727,9 +731,9 @@
       <div class="sec-kicker">Contact</div>
       <h2 style="font-size:28px;margin-bottom:20px;">Let's talk about your project.</h2>
       <div class="quick-actions">
-        <a class="qa-btn" href="https://wa.me/263716669706" target="_blank" rel="noopener">
+        <a class="qa-btn" href="https://wa.me/263776998296" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          <div><div class="t">WhatsApp</div><div class="d">+263 71 666 9706</div></div>
+          <div><div class="t">WhatsApp</div><div class="d">+263 77 699 8296</div></div>
         </a>
         <a class="qa-btn" href="mailto:spudytv14@gmail.com">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
@@ -839,7 +843,7 @@
       </div>
       <div class="foot-col">
         <h5>Contact</h5>
-        <a href="https://wa.me/263716669706" target="_blank" rel="noopener">WhatsApp: +263 71 666 9706</a>
+        <a href="https://wa.me/263776998296" target="_blank" rel="noopener">WhatsApp: +263 77 699 8296</a>
         <a href="mailto:spudytv14@gmail.com">spudytv14@gmail.com</a>
         <a href="#" onclick="openInfo('privacy');return false;">Privacy Policy</a>
         <a href="#" onclick="openInfo('terms');return false;">Terms &amp; Conditions</a>
@@ -1094,7 +1098,7 @@ function toggleCard(btn){
 function calcPrice(type) {
   if (type === 'marketing') {
     const months = parseInt(document.getElementById('marketing-duration').value) || 0;
-    const price = months * 250;
+    const price = months * 15;
     document.getElementById('marketing-price').innerHTML = '$' + price + ' <span>/ campaign</span>';
   } else if (type === 'web') {
     const pages = parseInt(document.getElementById('web-pages').value) || 0;
@@ -1114,8 +1118,8 @@ function calcPrice(type) {
     document.getElementById('app-price').innerHTML = '$' + price + ' <span>estimated base</span>';
   } else if (type === 'print') {
     const pages = parseInt(document.getElementById('print-pages').value) || 0;
-    // $0.50 per page
-    const price = (pages * 0.50).toFixed(2);
+    // $0.05 per page (so 20 pages = $1.00)
+    const price = (pages * 0.05).toFixed(2);
     document.getElementById('print-price').innerHTML = '$' + price + ' <span>total estimate</span>';
   }
 }
@@ -1316,6 +1320,14 @@ document.querySelectorAll('.modal-back').forEach(m=>{
 /* ============ PAYMENT MODAL LOGIC ============ */
 function openPayment() {
   document.getElementById('paymentModal').classList.add('show');
+}
+
+function openPaymentSelect(service) {
+  openPayment();
+  const select = document.getElementById('pay-service');
+  if (select) {
+    select.value = service;
+  }
 }
 
 function closePayment() {
