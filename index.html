@@ -368,13 +368,221 @@
   .floating-btn {
     position: fixed;
     bottom: 30px;
-    right: 30px;
+    left: 30px;
     z-index: 90;
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
     transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
     box-shadow: 0 10px 25px rgba(29, 78, 216, 0.4);
+  }
+
+  /* Spudy AI Chat Widget */
+  .spudy-ai-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .spudy-ai-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--blue), var(--cyan) 140%);
+    color: #03101F;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .spudy-ai-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 255, 0, 0.4);
+  }
+  .spudy-ai-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .spudy-ai-window {
+    width: 360px;
+    height: 480px;
+    background: var(--navy-2);
+    border: 1px solid var(--cyan);
+    border-radius: var(--radius-m);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-bottom: 16px;
+    transform-origin: bottom right;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .spudy-ai-window.open {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .spudy-ai-header {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .spudy-ai-header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Grotesk';
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--white);
+  }
+  .spudy-ai-online-badge {
+    width: 8px;
+    height: 8px;
+    background-color: var(--success);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--success);
+  }
+  .spudy-ai-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+  }
+  .spudy-ai-close:hover {
+    color: var(--white);
+  }
+
+  .spudy-ai-feed {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+  }
+
+  .spudy-ai-message {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: var(--radius-m);
+    font-size: 14px;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  .spudy-ai-message.user {
+    align-self: flex-end;
+    background: var(--panel-2);
+    color: var(--white);
+    border-bottom-right-radius: 2px;
+  }
+  .spudy-ai-message.assistant {
+    align-self: flex-start;
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.2);
+    color: var(--white);
+    border-bottom-left-radius: 2px;
+  }
+  .spudy-ai-message.error {
+    align-self: center;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+    font-size: 12.5px;
+  }
+
+  .spudy-ai-typing {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    background: rgba(0, 255, 0, 0.05);
+    border-radius: var(--radius-m);
+    border-bottom-left-radius: 2px;
+    width: fit-content;
+    align-self: flex-start;
+  }
+  .spudy-ai-typing.visible {
+    display: flex;
+  }
+  .spudy-ai-typing-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: spudyTyping 1.4s infinite ease-in-out both;
+  }
+  .spudy-ai-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+  .spudy-ai-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+  @keyframes spudyTyping {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+
+  .spudy-ai-input-area {
+    border-top: 1px solid var(--border);
+    padding: 12px;
+    background: var(--panel);
+  }
+  .spudy-ai-form {
+    display: flex;
+    gap: 8px;
+  }
+  .spudy-ai-input {
+    flex: 1;
+    background: var(--navy-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-s);
+    padding: 10px 12px;
+    color: var(--white);
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .spudy-ai-input:focus {
+    outline: none;
+    border-color: var(--cyan);
+  }
+  .spudy-ai-send {
+    background: var(--cyan);
+    color: #03101F;
+    border: none;
+    border-radius: var(--radius-s);
+    padding: 0 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+  }
+  .spudy-ai-send:hover {
+    opacity: 0.9;
+  }
+  .spudy-ai-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   .floating-btn.visible {
     opacity: 1;
@@ -1061,6 +1269,47 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- ================= SPUDY AI CHAT WIDGET ================= -->
+<div class="spudy-ai-widget" id="spudyAiWidget">
+  <div class="spudy-ai-window" id="spudyAiWindow">
+    <div class="spudy-ai-header">
+      <div class="spudy-ai-header-title">
+        <div class="spudy-ai-online-badge"></div>
+        Spudy AI
+      </div>
+      <button class="spudy-ai-close" id="spudyAiCloseBtn" aria-label="Close Chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="spudy-ai-feed" id="spudyAiFeed">
+      <div class="spudy-ai-message assistant">
+        Hi! I'm Spudy AI. How can I help you grow your business today?
+      </div>
+
+      <div class="spudy-ai-typing" id="spudyAiTyping">
+        <div class="spudy-ai-typing-dot"></div>
+        <div class="spudy-ai-typing-dot"></div>
+        <div class="spudy-ai-typing-dot"></div>
+      </div>
+    </div>
+
+    <div class="spudy-ai-input-area">
+      <form class="spudy-ai-form" id="spudyAiForm">
+        <input type="text" class="spudy-ai-input" id="spudyAiInput" placeholder="Type your message..." autocomplete="off">
+        <button type="submit" class="spudy-ai-send" id="spudyAiSendBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <button class="spudy-ai-toggle" id="spudyAiToggleBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Chat with Spudy AI
+  </button>
+</div>
+
 <script>
 /* ============ 3D BACKGROUND (Three.js) ============ */
 const canvas = document.querySelector('#bg-canvas');
@@ -1599,6 +1848,93 @@ document.getElementById('paymentForm').addEventListener('submit', async (e) => {
     secureText.innerHTML = originalSecureText;
   }
 });
+
+/* ============ SPUDY AI CHAT LOGIC ============ */
+const spudyAiToggleBtn = document.getElementById('spudyAiToggleBtn');
+const spudyAiWindow = document.getElementById('spudyAiWindow');
+const spudyAiCloseBtn = document.getElementById('spudyAiCloseBtn');
+const spudyAiForm = document.getElementById('spudyAiForm');
+const spudyAiInput = document.getElementById('spudyAiInput');
+const spudyAiFeed = document.getElementById('spudyAiFeed');
+const spudyAiTyping = document.getElementById('spudyAiTyping');
+const spudyAiSendBtn = document.getElementById('spudyAiSendBtn');
+
+function toggleChat() {
+  const isOpen = spudyAiWindow.classList.contains('open');
+  if (isOpen) {
+    spudyAiWindow.classList.remove('open');
+  } else {
+    spudyAiWindow.classList.add('open');
+    spudyAiInput.focus();
+  }
+}
+
+spudyAiToggleBtn.addEventListener('click', toggleChat);
+spudyAiCloseBtn.addEventListener('click', toggleChat);
+
+function appendMessage(role, text) {
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `spudy-ai-message ${role}`;
+  msgDiv.textContent = text;
+
+  // Insert before the typing indicator
+  spudyAiFeed.insertBefore(msgDiv, spudyAiTyping);
+
+  // Scroll to bottom
+  spudyAiFeed.scrollTop = spudyAiFeed.scrollHeight;
+}
+
+spudyAiForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const userMessage = spudyAiInput.value.trim();
+  if (!userMessage) return;
+
+  // Display user message
+  appendMessage('user', userMessage);
+
+  // Clear input and disable
+  spudyAiInput.value = '';
+  spudyAiInput.disabled = true;
+  spudyAiSendBtn.disabled = true;
+
+  // Show typing indicator
+  spudyAiTyping.classList.add('visible');
+  spudyAiFeed.scrollTop = spudyAiFeed.scrollHeight;
+
+  try {
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/spudy-ai`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY.trim(),
+        "authorization": `Bearer ${SUPABASE_KEY.trim()}`
+      },
+      body: JSON.stringify({ prompt: userMessage })
+    });
+
+    const data = await response.json();
+
+    // Hide typing indicator
+    spudyAiTyping.classList.remove('visible');
+
+    if (response.ok && data && data.reply) {
+      appendMessage('assistant', data.reply);
+    } else {
+      appendMessage('error', data.error || 'Oops, I am having trouble connecting right now.');
+    }
+  } catch (err) {
+    console.error("Spudy AI Error:", err);
+    spudyAiTyping.classList.remove('visible');
+    appendMessage('error', 'Network error. Please try again later.');
+  } finally {
+    // Re-enable input
+    spudyAiInput.disabled = false;
+    spudyAiSendBtn.disabled = false;
+    spudyAiInput.focus();
+  }
+});
+
 </script>
 </body>
 </html>
